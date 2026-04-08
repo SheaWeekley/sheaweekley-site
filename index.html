@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Shea Weekley — Director, Director of Photography, Editor. Tribeca. Hulu. Olympic Channel. Amazon.">
+  <meta property="og:title" content="Shea Weekley">
+  <meta property="og:description" content="Director · DP · Editor. Tribeca. Hulu. Olympic Channel. Amazon.">
+  <meta property="og:url" content="https://sheaweekley.com">
+  <title>Shea Weekley</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Barlow:wght@300;400&family=Barlow+Condensed:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #07090C;
+      --bg-card:      #0C0F14;
+      --text:         #E2DDD4;
+      --text-dim:     #6A665F;
+      --gold:         #B8965A;
+      --gold-faint:   rgba(184, 150, 90, 0.08);
+      --gold-border:  rgba(184, 150, 90, 0.22);
+      --line:         rgba(184, 150, 90, 0.14);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Barlow', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ──────────────────────────────────────────
+       NAV
+    ────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2.5rem;
+      transition: background 0.5s, border-color 0.5s;
+      border-bottom: 1px solid transparent;
+    }
+    nav.scrolled {
+      background: rgba(7, 9, 12, 0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom-color: var(--line);
+    }
+    .nav-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-credits {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 400;
+      font-size: 0.65rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ──────────────────────────────────────────
+       HERO
+    ────────────────────────────────────────── */
+    #hero {
+      position: relative;
+      width: 100%;
+      height: 100svh;
+      min-height: 600px;
+      overflow: hidden;
+    }
+
+    #flightMap {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* CSS vignette: darkens edges, keeps center clear */
+    #hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 70% at 50% 50%, transparent 30%, rgba(7,9,12,0.55) 100%),
+        linear-gradient(to bottom, rgba(7,9,12,0.45) 0%, transparent 18%, transparent 72%, rgba(7,9,12,0.8) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 5.5rem 2.5rem 2.75rem;
+    }
+
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(3.8rem, 9vw, 10rem);
+      line-height: 0.92;
+      letter-spacing: -0.015em;
+      color: var(--text);
+      opacity: 0;
+      animation: fadeUp 1s ease forwards;
+      animation-delay: 1.3s;
+    }
+    .hero-name em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-bottom {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .hero-tagline {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 300;
+      font-size: clamp(0.85rem, 1.4vw, 1.05rem);
+      color: rgba(226, 221, 212, 0.85);
+      max-width: 500px;
+      line-height: 1.7;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards;
+      animation-delay: 1.9s;
+    }
+    .hero-scroll {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards;
+      animation-delay: 2.5s;
+    }
+    .hero-scroll-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .scroll-track {
+      width: 44px;
+      height: 1px;
+      background: var(--line);
+      position: relative;
+      overflow: hidden;
+    }
+    .scroll-track::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 60%;
+      height: 100%;
+      background: var(--gold);
+      animation: trackPulse 2.2s ease-in-out infinite;
+      animation-delay: 3s;
+    }
+    @keyframes trackPulse {
+      0%   { left: -60%; opacity: 1; }
+      100% { left: 100%; opacity: 0; }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ──────────────────────────────────────────
+       COORDINATE DIVIDERS
+    ────────────────────────────────────────── */
+    .coord-divider {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 0 2.5rem;
+      margin: 0 0 5rem;
+    }
+    .coord-divider::before,
+    .coord-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+    }
+    .coord-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      white-space: nowrap;
+      opacity: 0.7;
+    }
+
+    /* ──────────────────────────────────────────
+       WORK SECTION
+    ────────────────────────────────────────── */
+    #work {
+      padding: 7rem 0 6rem;
+    }
+
+    /* ── PROJECT BASE ── */
+    .project-t1,
+    .project-t2,
+    .project-t3 {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+    .project-t1.revealed,
+    .project-t2.revealed,
+    .project-t3.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* VIDEO EMBED CONTAINER */
+    .project-video {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: var(--bg-card);
+      border: 1px solid var(--gold-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .project-video iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .video-placeholder-text {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      opacity: 0.45;
+    }
+
+    /* BADGES */
+    .project-info {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.45rem 1rem;
+    }
+    .badge {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.58rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--gold);
+      padding: 0.22em 0.7em;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+    .badge-award {
+      background: transparent !important;
+      color: var(--gold) !important;
+      border: 1px solid var(--gold-border);
+    }
+    .project-role {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    /* ── TIER 1 ── */
+    .tier-1 {
+      margin-bottom: 7rem;
+    }
+    .project-t1 {
+      padding: 0 2.5rem;
+      margin-bottom: 7rem;
+    }
+    .project-t1:last-child {
+      margin-bottom: 0;
+    }
+    .project-t1 .project-header {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0 2.5rem;
+      align-items: start;
+      margin-bottom: 1.75rem;
+    }
+    .project-index {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2.8rem, 5.5vw, 5.5rem);
+      line-height: 1;
+      color: var(--gold);
+      opacity: 0.25;
+      padding-top: 0.15em;
+      user-select: none;
+    }
+    .project-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .project-t1 .project-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: clamp(1.7rem, 3.8vw, 3.5rem);
+      line-height: 1.08;
+      color: var(--text);
+    }
+    .project-t1 .project-title em {
+      font-style: italic;
+      font-weight: 300;
+    }
+    .project-t1 .project-video {
+      margin-bottom: 1.5rem;
+    }
+    .project-t1 .project-description {
+      font-size: clamp(0.9rem, 1.2vw, 1rem);
+      color: var(--text-dim);
+      max-width: 680px;
+      line-height: 1.8;
+    }
+
+    /* ── TIER 2 ── */
+    .tier-2 {
+      padding: 0 2.5rem;
+      margin-bottom: 6rem;
+    }
+    .tier-2-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+    }
+    .project-t2 .project-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: clamp(1.1rem, 2.2vw, 1.7rem);
+      line-height: 1.15;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+    .project-t2 .project-title em {
+      font-style: italic;
+      font-weight: 300;
+    }
+    .project-t2 .project-video {
+      margin-bottom: 1.1rem;
+    }
+    .project-t2 .project-info {
+      margin-bottom: 0.75rem;
+    }
+    .project-t2 .project-description {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      line-height: 1.75;
+    }
+
+    /* ── TIER 3 ── */
+    .tier-3 {
+      padding: 0 2.5rem;
+      margin-bottom: 5rem;
+    }
+    .tier-3-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      max-width: 720px; /* keeps 2-up from stretching too wide */
+    }
+    .project-t3 .project-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: clamp(1rem, 1.8vw, 1.4rem);
+      line-height: 1.15;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+    .project-t3 .project-video {
+      margin-bottom: 0.9rem;
+    }
+    .project-t3 .project-info {
+      margin-bottom: 0.6rem;
+    }
+    .project-t3 .project-description {
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      line-height: 1.7;
+    }
+
+    /* ──────────────────────────────────────────
+       FOOTER
+    ────────────────────────────────────────── */
+    footer {
+      padding: 2.5rem 2.5rem;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .footer-copy {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      opacity: 0.45;
+    }
+
+    /* ──────────────────────────────────────────
+       RESPONSIVE
+    ────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .tier-2-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      nav { padding: 1.25rem 1.5rem; }
+      .hero-content { padding: 4.5rem 1.5rem 2rem; }
+      .project-t1 { padding: 0 1.5rem; margin-bottom: 5rem; }
+      .project-t1 .project-header {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+      }
+      .project-index { display: none; }
+      .tier-2 { padding: 0 1.5rem; }
+      .tier-2-grid { grid-template-columns: 1fr; }
+      .tier-3 { padding: 0 1.5rem; }
+      .tier-3-grid { grid-template-columns: 1fr; }
+      .coord-divider { padding: 0 1.5rem; }
+      footer { padding: 2rem 1.5rem; flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ── -->
+  <nav id="main-nav">
+    <a href="/" class="nav-name">Shea Weekley</a>
+    <span class="nav-credits">Director &middot; DP &middot; Editor</span>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section id="hero">
+    <canvas id="flightMap"></canvas>
+    <div class="hero-content">
+      <h1 class="hero-name">Shea <em>Weekley</em></h1>
+      <div class="hero-bottom">
+        <p class="hero-tagline">He has carried a camera to places most people only find on a map — and made films that make you feel why they matter.</p>
+        <div class="hero-scroll">
+          <span class="hero-scroll-label">Scroll</span>
+          <div class="scroll-track"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── WORK ── -->
+  <section id="work">
+
+    <div class="coord-divider">
+      <span class="coord-label">34°N 118°W &rarr; 39°N 75°W</span>
+    </div>
+
+    <!-- TIER 1 -->
+    <div class="tier-1">
+
+      <article class="project-t1">
+        <div class="project-header">
+          <div class="project-index">01</div>
+          <div class="project-meta">
+            <h2 class="project-title">Bad Actor: <em>A Hollywood Ponzi Scheme</em></h2>
+            <div class="project-info">
+              <span class="badge">Tribeca</span>
+              <span class="badge">Hulu</span>
+              <span class="project-role">Director of Photography &middot; Writer</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-video">
+          <!-- ADD VIMEO: <iframe src="https://player.vimeo.com/video/[ID]?title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe> -->
+          <span class="video-placeholder-text">[ Vimeo embed ]</span>
+        </div>
+        <p class="project-description">This film tracks the deception, the ego, and the inevitable crash of the largest Ponzi scheme in the history of California. Zachary Horwitz's desperate attempt to become a movie star led him down a path of fraud and ruin.</p>
+      </article>
+
+      <article class="project-t1">
+        <div class="project-header">
+          <div class="project-index">02</div>
+          <div class="project-meta">
+            <h2 class="project-title">Winter Playing Fields</h2>
+            <div class="project-info">
+              <span class="badge">The Olympic Channel</span>
+              <span class="badge badge-award">Sports Emmy Nomination</span>
+              <span class="project-role">Director of Photography &middot; Editor</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-video">
+          <!-- ADD VIMEO: <iframe src="https://player.vimeo.com/video/[ID]?title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe> -->
+          <span class="video-placeholder-text">[ Vimeo embed ]</span>
+        </div>
+        <p class="project-description">A snowboarder from Peru, a bobsledder from Brazil, and women's hockey in the Indian Himalayas. These are the stories and struggles of global athletes from unexpected regions attempting to make their Winter Olympic dreams come true.</p>
+      </article>
+
+      <article class="project-t1">
+        <div class="project-header">
+          <div class="project-index">03</div>
+          <div class="project-meta">
+            <h2 class="project-title">Fletcher Street</h2>
+            <div class="project-info">
+              <span class="badge">HotDocs</span>
+              <span class="badge">DC/DOX</span>
+              <span class="badge">Mountain Film</span>
+              <span class="project-role">Co-Director of Photography &middot; Co-Editor</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-video">
+          <!-- ADD VIMEO: <iframe src="https://player.vimeo.com/video/[ID]?title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe> -->
+          <span class="video-placeholder-text">[ Vimeo embed ]</span>
+        </div>
+        <p class="project-description">In the heart of North Philadelphia, where violence and instability are a daily reality, the Fletcher Street Urban Riding Club offers something rare: a safe haven. A moving portrait of a community where love, mentorship, and horses come together to change lives.</p>
+      </article>
+
+    </div><!-- /tier-1 -->
+
+    <div class="coord-divider">
+      <span class="coord-label">3°S 60°W &rarr; 25°N 55°E</span>
+    </div>
+
+    <!-- TIER 2 -->
+    <div class="tier-2">
+      <div class="tier-2-grid">
+
+        <article class="project-t2">
+          <div class="project-video">
+            <!-- ADD VIMEO: <iframe src="https://player.vimeo.com/video/[ID]?title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe> -->
+            <span class="video-placeholder-text">[ Vimeo embed ]</span>
+          </div>
+          <h2 class="project-title">The Climate Pledge: <em>Future Forward</em></h2>
+          <div class="project-info">
+            <span class="badge">Amazon Prime</span>
+            <span class="project-role">Editor</span>
+          </div>
+          <p class="project-description">In a world of rapid deforestation and global food shortages, boots on the ground in the Amazon explore how we can restore the world's greatest forest and keep the world fed.</p>
+        </article>
+
+        <article class="project-t2">
+          <div class="project-video">
+            <!-- ADD VIMEO: <iframe src="https://player.vimeo.com/video/[ID]?title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe> -->
+            <span class="video-placeholder-text">[ Vimeo embed ]</span>
+          </div>
+          <h2 class="project-title">Ajman Stud</h2>
+          <div class="project-info">
+            <span class="badge">Amazon Prime</span>
+            <span class="badge">Apple TV</span>
+            <span class="badge">Tubi</span>
+            <span class="project-role">Editor</span>
+          </div>
+          <p class="project-description">A behind-the-scenes look at the beauty, training, and competition inside the crown prince of Ajman's majestic, 250-strong collection of Arabian horses.</p>
+        </article>
+
+        <article class="project-t2">
+          <div class="project-video">
+            <!-- ADD VIMEO: <iframe src="https://player.vimeo.com/video/[ID]?title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe> -->
+            <span class="video-placeholder-text">[ Vimeo embed ]</span>
+          </div>
+          <h2 class="project-title">Playing Fields</h2>
+          <div class="project-info">
+            <span class="badge">The Olympic Channel</span>
+            <span class="project-role">Editor</span>
+          </div>
+          <p class="project-description">The inspiring stories behind a new generation of African athletes — each with their tragedies and triumphs, struggles and strengths.</p>
+        </article>
+
+      </div>
+    </div><!-- /tier-2 -->
+
+    <div class="coord-divider">
+      <span class="coord-label">24°N 46°E &rarr; 26°N 37°E</span>
+    </div>
+
+    <!-- TIER 3 -->
+    <div class="tier-3">
+      <div class="tier-3-grid">
+
+        <article class="project-t3">
+          <div class="project-video">
+            <!-- ADD VIMEO: <iframe src="https://player.vimeo.com/video/[ID]?title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe> -->
+            <span class="video-placeholder-text">[ Vimeo embed ]</span>
+          </div>
+          <h2 class="project-title">Next Stop</h2>
+          <div class="project-info">
+            <span class="badge">Saudia Airlines</span>
+            <span class="project-role">Director</span>
+          </div>
+          <p class="project-description">From forested mountains to pristine seashores to glittering metropolises — Arabia's cuisine, culture, and humanity, revealed.</p>
+        </article>
+
+        <article class="project-t3">
+          <div class="project-video">
+            <!-- ADD VIMEO: <iframe src="https://player.vimeo.com/video/[ID]?title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe> -->
+            <span class="video-placeholder-text">[ Vimeo embed ]</span>
+          </div>
+          <h2 class="project-title">Expo 2020</h2>
+          <div class="project-info">
+            <span class="badge">Saudi Ministry of Culture</span>
+            <span class="project-role">Editor</span>
+          </div>
+          <p class="project-description">Three uninitiated hosts discover Saudi Arabia for the first time — from the deserts of Al Ula to the bustling coasts of Jeddah.</p>
+        </article>
+
+      </div>
+    </div><!-- /tier-3 -->
+
+  </section><!-- /work -->
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <span class="footer-name">Shea Weekley &middot; Director &middot; DP &middot; Editor</span>
+    <span class="footer-copy">Virginia Beach, VA &middot; Worldwide</span>
+  </footer>
+
+  <script>
+    // ──────────────────────────────────────────
+    // NAV: add class on scroll
+    // ──────────────────────────────────────────
+    const mainNav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+      mainNav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // ──────────────────────────────────────────
+    // SCROLL REVEAL
+    // ──────────────────────────────────────────
+    const revealTargets = document.querySelectorAll('.project-t1, .project-t2, .project-t3');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          // Stagger within same viewport batch
+          const delay = Array.from(revealTargets).indexOf(entry.target) % 3 * 120;
+          setTimeout(() => entry.target.classList.add('revealed'), delay);
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    revealTargets.forEach(el => revealObserver.observe(el));
+
+    // ──────────────────────────────────────────
+    // HERO CANVAS: FLIGHT PATH ANIMATION
+    // ──────────────────────────────────────────
+    const canvas  = document.getElementById('flightMap');
+    const ctx     = canvas.getContext('2d');
+    let W, H;
+
+    function resizeCanvas() {
+      W = canvas.width  = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
+    }
+    window.addEventListener('resize', resizeCanvas, { passive: true });
+    resizeCanvas();
+
+    // Shooting locations: [lat, lng, label]
+    const LOCATIONS = [
+      [ 34.05, -118.24, 'Los Angeles'  ],  // 0  Bad Actor
+      [ 39.95,  -75.16, 'Philadelphia' ],  // 1  Fletcher Street
+      [-12.05,  -77.04, 'Lima'         ],  // 2  Winter Playing Fields
+      [-15.78,  -47.93, 'Brasília'     ],  // 3  Winter Playing Fields
+      [ 34.15,   77.58, 'Ladakh'       ],  // 4  Winter Playing Fields
+      [ -3.12,  -60.02, 'Amazon'       ],  // 5  Climate Pledge
+      [ 25.41,   55.44, 'Ajman'        ],  // 6  Ajman Stud
+      [ -1.29,   36.82, 'Nairobi'      ],  // 7  Playing Fields
+      [ 24.69,   46.72, 'Riyadh'       ],  // 8  Expo 2020 / Next Stop
+      [ 26.62,   37.92, 'Al Ula'       ],  // 9  Next Stop
+    ];
+
+    // Flight connections: pairs of location indices
+    const FLIGHT_PATHS = [
+      [0, 1],   // LA → Philadelphia
+      [1, 2],   // Philadelphia → Lima
+      [2, 3],   // Lima → Brasília
+      [3, 5],   // Brasília → Amazon
+      [0, 4],   // LA → Ladakh
+      [4, 6],   // Ladakh → Ajman
+      [6, 9],   // Ajman → Al Ula
+      [9, 8],   // Al Ula → Riyadh
+      [8, 7],   // Riyadh → Nairobi
+    ];
+
+    // Map lat/lng → canvas x,y
+    function geoToCanvas(lat, lng) {
+      const pad = 0.06;
+      const x = (pad + (lng + 180) / 360 * (1 - 2 * pad)) * W;
+      const y = (pad + (90 - lat)  / 180 * (1 - 2 * pad)) * H;
+      return [x, y];
+    }
+
+    // Bezier control point that arcs "over" the path
+    function controlPoint(x1, y1, x2, y2) {
+      const mx   = (x1 + x2) / 2;
+      const my   = (y1 + y2) / 2;
+      const dist = Math.hypot(x2 - x1, y2 - y1);
+      const ang  = Math.atan2(y2 - y1, x2 - x1);
+      // Offset perpendicular + slightly toward top of canvas
+      const cx = mx + Math.sin(ang)  * dist * 0.22;
+      const cy = my - Math.abs(Math.cos(ang)) * dist * 0.22 - dist * 0.08;
+      return [cx, cy];
+    }
+
+    // Point on a quadratic bezier at t (0–1)
+    function bezierPoint(x1, y1, cx, cy, x2, y2, t) {
+      const u = 1 - t;
+      return [
+        u * u * x1 + 2 * u * t * cx + t * t * x2,
+        u * u * y1 + 2 * u * t * cy + t * t * y2,
+      ];
+    }
+
+    // Easing
+    function easeInOut(t) {
+      return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+    }
+
+    // Timeline (ms)
+    const T_GRID_FADE  =  900;   // grid fade in duration
+    const T_DOTS_START =  900;
+    const T_DOTS_DUR   = 1400;
+    const T_PATH_START = 2000;
+    const T_PATH_EACH  =  380;   // ms per path segment
+
+    let animStart = null;
+
+    function drawGrid(alpha) {
+      ctx.save();
+      ctx.strokeStyle = `rgba(184, 150, 90, ${alpha * 0.11})`;
+      ctx.lineWidth   = 0.5;
+      ctx.setLineDash([]);
+
+      // Latitude lines every 30°
+      for (let lat = -60; lat <= 60; lat += 30) {
+        const [x1, y] = geoToCanvas(lat, -180);
+        const [x2]    = geoToCanvas(lat,  180);
+        ctx.beginPath();
+        ctx.moveTo(x1, y);
+        ctx.lineTo(x2, y);
+        ctx.stroke();
+      }
+
+      // Longitude lines every 30°
+      for (let lng = -180; lng <= 180; lng += 30) {
+        const [x, y1] = geoToCanvas( 90, lng);
+        const [,  y2] = geoToCanvas(-90, lng);
+        ctx.beginPath();
+        ctx.moveTo(x, y1);
+        ctx.lineTo(x, y2);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    function drawDots(progress, elapsed) {
+      const count = Math.min(LOCATIONS.length, Math.floor(progress * LOCATIONS.length + 1));
+      for (let i = 0; i < count; i++) {
+        const [x, y] = geoToCanvas(LOCATIONS[i][0], LOCATIONS[i][1]);
+
+        // Slow pulse ring (idle loop)
+        const pulseT  = ((elapsed * 0.0004 + i * 0.3) % 1);
+        const pulseR  = 4 + pulseT * 14;
+        const pulseA  = (1 - pulseT) * 0.25;
+        ctx.beginPath();
+        ctx.arc(x, y, pulseR, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(184, 150, 90, ${pulseA})`;
+        ctx.lineWidth   = 0.8;
+        ctx.setLineDash([]);
+        ctx.stroke();
+
+        // Outer ring (static)
+        ctx.beginPath();
+        ctx.arc(x, y, 4.5, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(184, 150, 90, 0.35)';
+        ctx.lineWidth   = 0.8;
+        ctx.stroke();
+
+        // Core dot
+        ctx.beginPath();
+        ctx.arc(x, y, 2, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(184, 150, 90, 0.85)';
+        ctx.fill();
+      }
+    }
+
+    function drawFlightPath(ia, ib, t) {
+      const [x1, y1] = geoToCanvas(LOCATIONS[ia][0], LOCATIONS[ia][1]);
+      const [x2, y2] = geoToCanvas(LOCATIONS[ib][0], LOCATIONS[ib][1]);
+      const [cx, cy] = controlPoint(x1, y1, x2, y2);
+
+      const steps     = 80;
+      const drawSteps = Math.max(1, Math.floor(steps * easeInOut(t)));
+
+      ctx.save();
+      ctx.setLineDash([3, 5]);
+      ctx.strokeStyle = 'rgba(184, 150, 90, 0.55)';
+      ctx.lineWidth   = 0.9;
+
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      for (let s = 1; s <= drawSteps; s++) {
+        const [bx, by] = bezierPoint(x1, y1, cx, cy, x2, y2, s / steps);
+        ctx.lineTo(bx, by);
+      }
+      ctx.stroke();
+
+      // Moving particle at the path front (while still drawing)
+      if (t > 0 && t < 0.98) {
+        const pt = drawSteps / steps;
+        const [px, py] = bezierPoint(x1, y1, cx, cy, x2, y2, pt);
+        ctx.beginPath();
+        ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 225, 160, 0.95)';
+        ctx.setLineDash([]);
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+
+    function frame(ts) {
+      if (!animStart) animStart = ts;
+      const elapsed = ts - animStart;
+
+      ctx.clearRect(0, 0, W, H);
+
+      // Grid
+      const gridAlpha = Math.min(1, elapsed / T_GRID_FADE);
+      drawGrid(gridAlpha);
+
+      // Dots
+      if (elapsed > T_DOTS_START) {
+        const dotsProgress = Math.min(1, (elapsed - T_DOTS_START) / T_DOTS_DUR);
+        drawDots(dotsProgress, elapsed);
+      }
+
+      // Flight paths
+      if (elapsed > T_PATH_START) {
+        const pathElapsed = elapsed - T_PATH_START;
+        for (let i = 0; i < FLIGHT_PATHS.length; i++) {
+          const offset = i * T_PATH_EACH;
+          if (pathElapsed < offset) break;
+          const t = Math.min(1, (pathElapsed - offset) / T_PATH_EACH);
+          drawFlightPath(FLIGHT_PATHS[i][0], FLIGHT_PATHS[i][1], t);
+        }
+      }
+
+      requestAnimationFrame(frame);
+    }
+
+    requestAnimationFrame(frame);
+  </script>
+
+</body>
+</html>
