@@ -648,14 +648,21 @@
       refreshGrain();
     }
 
-    window.addEventListener('resize', resizeCanvas, { passive: true });
-    resizeCanvas();
-
-    // ── WORLD DATA ───────────────────────────
+    // ── ALL STATE DECLARATIONS (must precede resizeCanvas call) ──
     let geoLand    = null;
     let geoBorders = null;
     let dataReady  = false;
     let animStart  = null;
+    let particles  = [];
+    let flickBright = 1;
+    let flickTarget = 1;
+    let flickWait   = 10;
+    let flickCount  = 0;
+    let lastTs      = null;
+    let grainTick   = 0;
+
+    window.addEventListener('resize', resizeCanvas, { passive: true });
+    resizeCanvas();
 
     fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
       .then(r => r.json())
@@ -698,7 +705,6 @@
     }
 
     // ── DUST PARTICLES ───────────────────────
-    let particles = [];
 
     function initParticles() {
       particles = Array.from({ length: 58 }, () => ({
@@ -763,10 +769,6 @@
     }
 
     // ── FLICKER ──────────────────────────────
-    let flickBright = 1;
-    let flickTarget = 1;
-    let flickWait   = 10;
-    let flickCount  = 0;
 
     function stepFlicker() {
       flickCount++;
@@ -945,9 +947,6 @@
       pathStart: 1900,
       pathEach:   420,
     };
-
-    let lastTs    = null;
-    let grainTick = 0;
 
     function frame(ts) {
       const dt = lastTs ? Math.min(ts - lastTs, 50) : 16;
