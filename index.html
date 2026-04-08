@@ -4,27 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Shea Weekley — Director, Director of Photography, Editor. Tribeca. Hulu. Olympic Channel. Amazon.">
-  <meta property="og:title" content="Shea Weekley">
-  <meta property="og:description" content="Director · DP · Editor. Tribeca. Hulu. Olympic Channel. Amazon.">
-  <meta property="og:url" content="https://sheaweekley.com">
   <title>Shea Weekley</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Barlow:wght@300;400&family=Barlow+Condensed:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Barlow:wght@300;400&family=Barlow+Condensed:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:           #07090C;
-      --bg-card:      #0C0F14;
-      --text:         #E2DDD4;
-      --text-dim:     #6A665F;
-      --gold:         #B8965A;
-      --gold-faint:   rgba(184, 150, 90, 0.08);
-      --gold-border:  rgba(184, 150, 90, 0.22);
-      --line:         rgba(184, 150, 90, 0.14);
+      --bg:          #070605;
+      --bg-card:     #0D0B09;
+      --text:        #E2DDD4;
+      --text-dim:    #6A665F;
+      --gold:        #B8965A;
+      --gold-border: rgba(184, 150, 90, 0.22);
+      --line:        rgba(184, 150, 90, 0.14);
     }
 
     html { scroll-behavior: smooth; }
@@ -38,9 +37,7 @@
       overflow-x: hidden;
     }
 
-    /* ──────────────────────────────────────────
-       NAV
-    ────────────────────────────────────────── */
+    /* NAV */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -53,15 +50,15 @@
       border-bottom: 1px solid transparent;
     }
     nav.scrolled {
-      background: rgba(7, 9, 12, 0.92);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: rgba(7, 6, 5, 0.93);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-bottom-color: var(--line);
     }
     .nav-name {
       font-family: 'Barlow Condensed', sans-serif;
       font-weight: 600;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--text);
@@ -70,23 +67,21 @@
     .nav-credits {
       font-family: 'Barlow Condensed', sans-serif;
       font-weight: 400;
-      font-size: 0.65rem;
-      letter-spacing: 0.22em;
+      font-size: 0.62rem;
+      letter-spacing: 0.24em;
       text-transform: uppercase;
       color: var(--gold);
     }
 
-    /* ──────────────────────────────────────────
-       HERO
-    ────────────────────────────────────────── */
+    /* HERO */
     #hero {
       position: relative;
       width: 100%;
       height: 100svh;
       min-height: 600px;
       overflow: hidden;
+      background: var(--bg);
     }
-
     #flightMap {
       position: absolute;
       inset: 0;
@@ -94,105 +89,90 @@
       height: 100%;
       display: block;
     }
-
-    /* CSS vignette: darkens edges, keeps center clear */
-    #hero::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 80% 70% at 50% 50%, transparent 30%, rgba(7,9,12,0.55) 100%),
-        linear-gradient(to bottom, rgba(7,9,12,0.45) 0%, transparent 18%, transparent 72%, rgba(7,9,12,0.8) 100%);
-      pointer-events: none;
-      z-index: 1;
-    }
-
     .hero-content {
       position: absolute;
       inset: 0;
       z-index: 2;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      padding: 5.5rem 2.5rem 2.75rem;
+      align-items: center;
+      justify-content: center;
+      gap: 0.85rem;
+      pointer-events: none;
     }
-
     .hero-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(3.8rem, 9vw, 10rem);
-      line-height: 0.92;
-      letter-spacing: -0.015em;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2.6rem, 7vw, 8rem);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
       color: var(--text);
+      line-height: 1;
       opacity: 0;
-      animation: fadeUp 1s ease forwards;
-      animation-delay: 1.3s;
+      animation: fadeUp 0.9s ease forwards;
+      animation-delay: 1.1s;
     }
-    .hero-name em {
-      font-style: italic;
+    .hero-titles {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 400;
+      font-size: clamp(0.58rem, 0.95vw, 0.78rem);
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
       color: var(--gold);
-    }
-
-    .hero-bottom {
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-    }
-    .hero-tagline {
-      font-family: 'Barlow', sans-serif;
-      font-weight: 300;
-      font-size: clamp(0.85rem, 1.4vw, 1.05rem);
-      color: rgba(226, 221, 212, 0.85);
-      max-width: 500px;
-      line-height: 1.7;
       opacity: 0;
-      animation: fadeUp 1s ease forwards;
-      animation-delay: 1.9s;
+      animation: fadeUp 0.9s ease forwards;
+      animation-delay: 1.65s;
     }
     .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 1rem;
+      gap: 0.65rem;
       opacity: 0;
       animation: fadeUp 0.8s ease forwards;
-      animation-delay: 2.5s;
+      animation-delay: 2.3s;
+      z-index: 2;
     }
     .hero-scroll-label {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.6rem;
-      letter-spacing: 0.28em;
+      font-size: 0.52rem;
+      letter-spacing: 0.32em;
       text-transform: uppercase;
       color: var(--gold);
+      opacity: 0.55;
     }
-    .scroll-track {
-      width: 44px;
-      height: 1px;
-      background: var(--line);
+    .scroll-line {
+      width: 1px;
+      height: 38px;
+      background: rgba(184, 150, 90, 0.18);
       position: relative;
       overflow: hidden;
     }
-    .scroll-track::after {
+    .scroll-line::after {
       content: '';
       position: absolute;
-      top: 0; left: -100%;
-      width: 60%;
-      height: 100%;
+      top: -65%;
+      left: 0;
+      width: 100%;
+      height: 65%;
       background: var(--gold);
-      animation: trackPulse 2.2s ease-in-out infinite;
-      animation-delay: 3s;
+      animation: scrollDrop 2.2s ease-in-out infinite;
+      animation-delay: 2.8s;
     }
-    @keyframes trackPulse {
-      0%   { left: -60%; opacity: 1; }
-      100% { left: 100%; opacity: 0; }
+    @keyframes scrollDrop {
+      0%   { top: -65%; opacity: 1; }
+      100% { top: 100%; opacity: 0; }
     }
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(18px); }
+      from { opacity: 0; transform: translateY(14px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ──────────────────────────────────────────
-       COORDINATE DIVIDERS
-    ────────────────────────────────────────── */
+    /* COORD DIVIDERS */
     .coord-divider {
       display: flex;
       align-items: center;
@@ -209,27 +189,22 @@
     }
     .coord-label {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.6rem;
-      letter-spacing: 0.25em;
+      font-size: 0.58rem;
+      letter-spacing: 0.26em;
       text-transform: uppercase;
       color: var(--gold);
       white-space: nowrap;
-      opacity: 0.7;
+      opacity: 0.6;
     }
 
-    /* ──────────────────────────────────────────
-       WORK SECTION
-    ────────────────────────────────────────── */
-    #work {
-      padding: 7rem 0 6rem;
-    }
+    /* WORK */
+    #work { padding: 7rem 0 6rem; }
 
-    /* ── PROJECT BASE ── */
     .project-t1,
     .project-t2,
     .project-t3 {
       opacity: 0;
-      transform: translateY(28px);
+      transform: translateY(26px);
       transition: opacity 0.75s ease, transform 0.75s ease;
     }
     .project-t1.revealed,
@@ -239,7 +214,6 @@
       transform: translateY(0);
     }
 
-    /* VIDEO EMBED CONTAINER */
     .project-video {
       width: 100%;
       aspect-ratio: 16 / 9;
@@ -260,29 +234,28 @@
     }
     .video-placeholder-text {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.6rem;
-      letter-spacing: 0.28em;
+      font-size: 0.58rem;
+      letter-spacing: 0.3em;
       text-transform: uppercase;
       color: var(--text-dim);
-      opacity: 0.45;
+      opacity: 0.38;
     }
 
-    /* BADGES */
     .project-info {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 0.45rem 1rem;
+      gap: 0.4rem 0.9rem;
     }
     .badge {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.58rem;
+      font-size: 0.56rem;
       font-weight: 600;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--bg);
       background: var(--gold);
-      padding: 0.22em 0.7em;
+      padding: 0.22em 0.72em;
       border-radius: 2px;
       white-space: nowrap;
     }
@@ -293,24 +266,16 @@
     }
     .project-role {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.65rem;
-      font-weight: 400;
+      font-size: 0.63rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--text-dim);
     }
 
-    /* ── TIER 1 ── */
-    .tier-1 {
-      margin-bottom: 7rem;
-    }
-    .project-t1 {
-      padding: 0 2.5rem;
-      margin-bottom: 7rem;
-    }
-    .project-t1:last-child {
-      margin-bottom: 0;
-    }
+    /* TIER 1 */
+    .tier-1 { margin-bottom: 7rem; }
+    .project-t1 { padding: 0 2.5rem; margin-bottom: 7rem; }
+    .project-t1:last-child { margin-bottom: 0; }
     .project-t1 .project-header {
       display: grid;
       grid-template-columns: auto 1fr;
@@ -319,13 +284,13 @@
       margin-bottom: 1.75rem;
     }
     .project-index {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(2.8rem, 5.5vw, 5.5rem);
+      font-family: 'Syne', sans-serif;
+      font-weight: 400;
+      font-size: clamp(2.5rem, 5vw, 4.8rem);
       line-height: 1;
       color: var(--gold);
-      opacity: 0.25;
-      padding-top: 0.15em;
+      opacity: 0.18;
+      padding-top: 0.22em;
       user-select: none;
     }
     .project-meta {
@@ -334,96 +299,80 @@
       gap: 0.65rem;
     }
     .project-t1 .project-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 600;
-      font-size: clamp(1.7rem, 3.8vw, 3.5rem);
-      line-height: 1.08;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.55rem, 3.4vw, 3.1rem);
+      line-height: 1.1;
       color: var(--text);
     }
     .project-t1 .project-title em {
       font-style: italic;
-      font-weight: 300;
+      font-weight: 400;
+      color: rgba(226, 221, 212, 0.55);
     }
-    .project-t1 .project-video {
-      margin-bottom: 1.5rem;
-    }
+    .project-t1 .project-video { margin-bottom: 1.5rem; }
     .project-t1 .project-description {
-      font-size: clamp(0.9rem, 1.2vw, 1rem);
+      font-size: clamp(0.88rem, 1.15vw, 0.98rem);
       color: var(--text-dim);
       max-width: 680px;
-      line-height: 1.8;
+      line-height: 1.85;
     }
 
-    /* ── TIER 2 ── */
-    .tier-2 {
-      padding: 0 2.5rem;
-      margin-bottom: 6rem;
-    }
+    /* TIER 2 */
+    .tier-2 { padding: 0 2.5rem; margin-bottom: 6rem; }
     .tier-2-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 2.5rem;
     }
     .project-t2 .project-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 600;
-      font-size: clamp(1.1rem, 2.2vw, 1.7rem);
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: clamp(0.95rem, 1.9vw, 1.5rem);
       line-height: 1.15;
       color: var(--text);
       margin-bottom: 0.5rem;
     }
     .project-t2 .project-title em {
       font-style: italic;
-      font-weight: 300;
+      font-weight: 400;
+      color: rgba(226, 221, 212, 0.55);
     }
-    .project-t2 .project-video {
-      margin-bottom: 1.1rem;
-    }
-    .project-t2 .project-info {
-      margin-bottom: 0.75rem;
-    }
+    .project-t2 .project-video { margin-bottom: 1.1rem; }
+    .project-t2 .project-info { margin-bottom: 0.75rem; }
     .project-t2 .project-description {
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       color: var(--text-dim);
-      line-height: 1.75;
+      line-height: 1.78;
     }
 
-    /* ── TIER 3 ── */
-    .tier-3 {
-      padding: 0 2.5rem;
-      margin-bottom: 5rem;
-    }
+    /* TIER 3 */
+    .tier-3 { padding: 0 2.5rem; margin-bottom: 5rem; }
     .tier-3-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 2rem;
-      max-width: 720px; /* keeps 2-up from stretching too wide */
+      max-width: 700px;
     }
     .project-t3 .project-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 600;
-      font-size: clamp(1rem, 1.8vw, 1.4rem);
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: clamp(0.9rem, 1.6vw, 1.28rem);
       line-height: 1.15;
       color: var(--text);
       margin-bottom: 0.4rem;
     }
-    .project-t3 .project-video {
-      margin-bottom: 0.9rem;
-    }
-    .project-t3 .project-info {
-      margin-bottom: 0.6rem;
-    }
+    .project-t3 .project-video { margin-bottom: 0.9rem; }
+    .project-t3 .project-info { margin-bottom: 0.6rem; }
     .project-t3 .project-description {
-      font-size: 0.82rem;
+      font-size: 0.81rem;
       color: var(--text-dim);
-      line-height: 1.7;
+      line-height: 1.72;
     }
 
-    /* ──────────────────────────────────────────
-       FOOTER
-    ────────────────────────────────────────── */
+    /* FOOTER */
     footer {
-      padding: 2.5rem 2.5rem;
+      padding: 2.5rem;
       border-top: 1px solid var(--line);
       display: flex;
       justify-content: space-between;
@@ -431,75 +380,68 @@
     }
     .footer-name {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.65rem;
+      font-size: 0.63rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--text-dim);
     }
     .footer-copy {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.6rem;
+      font-size: 0.58rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
       color: var(--text-dim);
-      opacity: 0.45;
+      opacity: 0.38;
     }
 
-    /* ──────────────────────────────────────────
-       RESPONSIVE
-    ────────────────────────────────────────── */
+    /* RESPONSIVE */
     @media (max-width: 900px) {
       .tier-2-grid { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 640px) {
-      nav { padding: 1.25rem 1.5rem; }
-      .hero-content { padding: 4.5rem 1.5rem 2rem; }
+      nav { padding: 1.2rem 1.5rem; }
       .project-t1 { padding: 0 1.5rem; margin-bottom: 5rem; }
-      .project-t1 .project-header {
-        grid-template-columns: 1fr;
-        gap: 0.5rem;
-      }
+      .project-t1 .project-header { grid-template-columns: 1fr; }
       .project-index { display: none; }
       .tier-2 { padding: 0 1.5rem; }
       .tier-2-grid { grid-template-columns: 1fr; }
       .tier-3 { padding: 0 1.5rem; }
       .tier-3-grid { grid-template-columns: 1fr; }
       .coord-divider { padding: 0 1.5rem; }
-      footer { padding: 2rem 1.5rem; flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+      footer {
+        padding: 2rem 1.5rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.4rem;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- ── NAV ── -->
   <nav id="main-nav">
     <a href="/" class="nav-name">Shea Weekley</a>
     <span class="nav-credits">Director &middot; DP &middot; Editor</span>
   </nav>
 
-  <!-- ── HERO ── -->
   <section id="hero">
     <canvas id="flightMap"></canvas>
     <div class="hero-content">
-      <h1 class="hero-name">Shea <em>Weekley</em></h1>
-      <div class="hero-bottom">
-        <p class="hero-tagline">He has carried a camera to places most people only find on a map — and made films that make you feel why they matter.</p>
-        <div class="hero-scroll">
-          <span class="hero-scroll-label">Scroll</span>
-          <div class="scroll-track"></div>
-        </div>
-      </div>
+      <h1 class="hero-name">Shea Weekley</h1>
+      <p class="hero-titles">Director &middot; DP &middot; Editor</p>
+    </div>
+    <div class="hero-scroll">
+      <span class="hero-scroll-label">Scroll</span>
+      <div class="scroll-line"></div>
     </div>
   </section>
 
-  <!-- ── WORK ── -->
   <section id="work">
 
     <div class="coord-divider">
       <span class="coord-label">34°N 118°W &rarr; 39°N 75°W</span>
     </div>
 
-    <!-- TIER 1 -->
     <div class="tier-1">
 
       <article class="project-t1">
@@ -515,7 +457,7 @@
           </div>
         </div>
         <div class="project-video">
-          <!-- ADD VIMEO: <iframe src="https://player.vimeo.com/video/[ID]?title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe> -->
+          <!-- ADD VIMEO: <iframe src="https://player.vimeo.com/video/[ID]?title=0&byline=0&portrait=0&color=b8965a" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe> -->
           <span class="video-placeholder-text">[ Vimeo embed ]</span>
         </div>
         <p class="project-description">This film tracks the deception, the ego, and the inevitable crash of the largest Ponzi scheme in the history of California. Zachary Horwitz's desperate attempt to become a movie star led him down a path of fraud and ruin.</p>
@@ -534,10 +476,10 @@
           </div>
         </div>
         <div class="project-video">
-          <!-- ADD VIMEO: <iframe src="https://player.vimeo.com/video/[ID]?title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe> -->
+          <!-- ADD VIMEO: <iframe src="https://player.vimeo.com/video/[ID]?title=0&byline=0&portrait=0&color=b8965a" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe> -->
           <span class="video-placeholder-text">[ Vimeo embed ]</span>
         </div>
-        <p class="project-description">A snowboarder from Peru, a bobsledder from Brazil, and women's hockey in the Indian Himalayas. These are the stories and struggles of global athletes from unexpected regions attempting to make their Winter Olympic dreams come true.</p>
+        <p class="project-description">A snowboarder from Peru, a bobsledder from Brazil, and women's hockey in the Indian Himalayas. The stories and struggles of global athletes from unexpected regions attempting to make their Winter Olympic dreams come true.</p>
       </article>
 
       <article class="project-t1">
@@ -554,25 +496,24 @@
           </div>
         </div>
         <div class="project-video">
-          <!-- ADD VIMEO: <iframe src="https://player.vimeo.com/video/[ID]?title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe> -->
+          <!-- ADD VIMEO: <iframe src="https://player.vimeo.com/video/[ID]?title=0&byline=0&portrait=0&color=b8965a" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe> -->
           <span class="video-placeholder-text">[ Vimeo embed ]</span>
         </div>
         <p class="project-description">In the heart of North Philadelphia, where violence and instability are a daily reality, the Fletcher Street Urban Riding Club offers something rare: a safe haven. A moving portrait of a community where love, mentorship, and horses come together to change lives.</p>
       </article>
 
-    </div><!-- /tier-1 -->
+    </div>
 
     <div class="coord-divider">
       <span class="coord-label">3°S 60°W &rarr; 25°N 55°E</span>
     </div>
 
-    <!-- TIER 2 -->
     <div class="tier-2">
       <div class="tier-2-grid">
 
         <article class="project-t2">
           <div class="project-video">
-            <!-- ADD VIMEO: <iframe src="https://player.vimeo.com/video/[ID]?title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe> -->
+            <!-- ADD VIMEO: <iframe src="https://player.vimeo.com/video/[ID]?title=0&byline=0&portrait=0&color=b8965a" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe> -->
             <span class="video-placeholder-text">[ Vimeo embed ]</span>
           </div>
           <h2 class="project-title">The Climate Pledge: <em>Future Forward</em></h2>
@@ -585,7 +526,7 @@
 
         <article class="project-t2">
           <div class="project-video">
-            <!-- ADD VIMEO: <iframe src="https://player.vimeo.com/video/[ID]?title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe> -->
+            <!-- ADD VIMEO: <iframe src="https://player.vimeo.com/video/[ID]?title=0&byline=0&portrait=0&color=b8965a" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe> -->
             <span class="video-placeholder-text">[ Vimeo embed ]</span>
           </div>
           <h2 class="project-title">Ajman Stud</h2>
@@ -600,7 +541,7 @@
 
         <article class="project-t2">
           <div class="project-video">
-            <!-- ADD VIMEO: <iframe src="https://player.vimeo.com/video/[ID]?title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe> -->
+            <!-- ADD VIMEO: <iframe src="https://player.vimeo.com/video/[ID]?title=0&byline=0&portrait=0&color=b8965a" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe> -->
             <span class="video-placeholder-text">[ Vimeo embed ]</span>
           </div>
           <h2 class="project-title">Playing Fields</h2>
@@ -612,19 +553,18 @@
         </article>
 
       </div>
-    </div><!-- /tier-2 -->
+    </div>
 
     <div class="coord-divider">
       <span class="coord-label">24°N 46°E &rarr; 26°N 37°E</span>
     </div>
 
-    <!-- TIER 3 -->
     <div class="tier-3">
       <div class="tier-3-grid">
 
         <article class="project-t3">
           <div class="project-video">
-            <!-- ADD VIMEO: <iframe src="https://player.vimeo.com/video/[ID]?title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe> -->
+            <!-- ADD VIMEO: <iframe src="https://player.vimeo.com/video/[ID]?title=0&byline=0&portrait=0&color=b8965a" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe> -->
             <span class="video-placeholder-text">[ Vimeo embed ]</span>
           </div>
           <h2 class="project-title">Next Stop</h2>
@@ -637,7 +577,7 @@
 
         <article class="project-t3">
           <div class="project-video">
-            <!-- ADD VIMEO: <iframe src="https://player.vimeo.com/video/[ID]?title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe> -->
+            <!-- ADD VIMEO: <iframe src="https://player.vimeo.com/video/[ID]?title=0&byline=0&portrait=0&color=b8965a" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe> -->
             <span class="video-placeholder-text">[ Vimeo embed ]</span>
           </div>
           <h2 class="project-title">Expo 2020</h2>
@@ -649,34 +589,29 @@
         </article>
 
       </div>
-    </div><!-- /tier-3 -->
+    </div>
 
-  </section><!-- /work -->
+  </section>
 
-  <!-- ── FOOTER ── -->
   <footer>
     <span class="footer-name">Shea Weekley &middot; Director &middot; DP &middot; Editor</span>
     <span class="footer-copy">Virginia Beach, VA &middot; Worldwide</span>
   </footer>
 
   <script>
-    // ──────────────────────────────────────────
-    // NAV: add class on scroll
-    // ──────────────────────────────────────────
+    // NAV
     const mainNav = document.getElementById('main-nav');
     window.addEventListener('scroll', () => {
       mainNav.classList.toggle('scrolled', window.scrollY > 60);
     }, { passive: true });
 
-    // ──────────────────────────────────────────
     // SCROLL REVEAL
-    // ──────────────────────────────────────────
     const revealTargets = document.querySelectorAll('.project-t1, .project-t2, .project-t3');
     const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry, i) => {
+      entries.forEach(entry => {
         if (entry.isIntersecting) {
-          // Stagger within same viewport batch
-          const delay = Array.from(revealTargets).indexOf(entry.target) % 3 * 120;
+          const idx   = Array.from(revealTargets).indexOf(entry.target);
+          const delay = (idx % 3) * 120;
           setTimeout(() => entry.target.classList.add('revealed'), delay);
           revealObserver.unobserve(entry.target);
         }
@@ -684,209 +619,380 @@
     }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
     revealTargets.forEach(el => revealObserver.observe(el));
 
-    // ──────────────────────────────────────────
-    // HERO CANVAS: FLIGHT PATH ANIMATION
-    // ──────────────────────────────────────────
-    const canvas  = document.getElementById('flightMap');
-    const ctx     = canvas.getContext('2d');
+    // ── CANVAS ──────────────────────────────
+    const canvas = document.getElementById('flightMap');
+    const ctx    = canvas.getContext('2d');
     let W, H;
+
+    // Offscreen grain canvas (1/3 resolution for perf)
+    const grainCanvas = document.createElement('canvas');
+    const grainCtx    = grainCanvas.getContext('2d');
+
+    let projection, geoPathGen;
+
+    function buildProjection() {
+      const scale = Math.min(W * 0.155, H * 0.305);
+      projection  = d3.geoNaturalEarth1()
+        .scale(scale)
+        .translate([W / 2, H / 2]);
+      geoPathGen  = d3.geoPath(projection, ctx);
+    }
 
     function resizeCanvas() {
       W = canvas.width  = canvas.offsetWidth;
       H = canvas.height = canvas.offsetHeight;
+      grainCanvas.width  = Math.max(1, Math.floor(W / 3));
+      grainCanvas.height = Math.max(1, Math.floor(H / 3));
+      buildProjection();
+      initParticles();
+      refreshGrain();
     }
+
     window.addEventListener('resize', resizeCanvas, { passive: true });
     resizeCanvas();
 
-    // Shooting locations: [lat, lng, label]
-    const LOCATIONS = [
-      [ 34.05, -118.24, 'Los Angeles'  ],  // 0  Bad Actor
-      [ 39.95,  -75.16, 'Philadelphia' ],  // 1  Fletcher Street
-      [-12.05,  -77.04, 'Lima'         ],  // 2  Winter Playing Fields
-      [-15.78,  -47.93, 'Brasília'     ],  // 3  Winter Playing Fields
-      [ 34.15,   77.58, 'Ladakh'       ],  // 4  Winter Playing Fields
-      [ -3.12,  -60.02, 'Amazon'       ],  // 5  Climate Pledge
-      [ 25.41,   55.44, 'Ajman'        ],  // 6  Ajman Stud
-      [ -1.29,   36.82, 'Nairobi'      ],  // 7  Playing Fields
-      [ 24.69,   46.72, 'Riyadh'       ],  // 8  Expo 2020 / Next Stop
-      [ 26.62,   37.92, 'Al Ula'       ],  // 9  Next Stop
+    // ── WORLD DATA ───────────────────────────
+    let geoLand    = null;
+    let geoBorders = null;
+    let dataReady  = false;
+    let animStart  = null;
+
+    fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
+      .then(r => r.json())
+      .then(world => {
+        geoLand    = topojson.feature(world, world.objects.land);
+        geoBorders = topojson.mesh(world, world.objects.countries, (a, b) => a !== b);
+        dataReady  = true;
+        animStart  = null; // fresh start once map data is ready
+      });
+
+    // ── LOCATIONS  [lat, lng] ─────────────────
+    // Note: D3 projection takes [lng, lat] — handled in toXY()
+    const LOCS = [
+      [ 34.05, -118.24 ],  // 0  Los Angeles
+      [ 39.95,  -75.16 ],  // 1  Philadelphia
+      [-12.05,  -77.04 ],  // 2  Lima
+      [-15.78,  -47.93 ],  // 3  Brasília
+      [ 34.15,   77.58 ],  // 4  Ladakh
+      [ -3.12,  -60.02 ],  // 5  Amazon
+      [ 25.41,   55.44 ],  // 6  Ajman
+      [ -1.29,   36.82 ],  // 7  Nairobi
+      [ 24.69,   46.72 ],  // 8  Riyadh
+      [ 26.62,   37.92 ],  // 9  Al Ula
     ];
 
-    // Flight connections: pairs of location indices
-    const FLIGHT_PATHS = [
-      [0, 1],   // LA → Philadelphia
-      [1, 2],   // Philadelphia → Lima
-      [2, 3],   // Lima → Brasília
-      [3, 5],   // Brasília → Amazon
-      [0, 4],   // LA → Ladakh
-      [4, 6],   // Ladakh → Ajman
-      [6, 9],   // Ajman → Al Ula
-      [9, 8],   // Al Ula → Riyadh
-      [8, 7],   // Riyadh → Nairobi
+    const PATHS = [
+      [0, 1],  // LA → Philadelphia
+      [1, 2],  // Philadelphia → Lima
+      [2, 3],  // Lima → Brasília
+      [3, 5],  // Brasília → Amazon
+      [0, 4],  // LA → Ladakh
+      [4, 6],  // Ladakh → Ajman
+      [6, 9],  // Ajman → Al Ula
+      [9, 8],  // Al Ula → Riyadh
+      [8, 7],  // Riyadh → Nairobi
     ];
 
-    // Map lat/lng → canvas x,y
-    function geoToCanvas(lat, lng) {
-      const pad = 0.06;
-      const x = (pad + (lng + 180) / 360 * (1 - 2 * pad)) * W;
-      const y = (pad + (90 - lat)  / 180 * (1 - 2 * pad)) * H;
-      return [x, y];
+    function toXY(lat, lng) {
+      return projection([lng, lat]); // D3 takes [lng, lat]
     }
 
-    // Bezier control point that arcs "over" the path
-    function controlPoint(x1, y1, x2, y2) {
+    // ── DUST PARTICLES ───────────────────────
+    let particles = [];
+
+    function initParticles() {
+      particles = Array.from({ length: 58 }, () => ({
+        x:        Math.random(),
+        y:        Math.random(),
+        r:        Math.random() * 1.2 + 0.15,
+        speed:    (Math.random() * 0.055 + 0.015) * 0.0001,
+        angle:    Math.random() * Math.PI * 2,
+        drift:    (Math.random() - 0.5) * 0.0007,
+        alpha:    Math.random() * 0.25 + 0.04,
+        glint:    0,
+        glintCd:  Math.random() * 400 + 150,
+        glintAge: 0,
+      }));
+    }
+
+    function stepParticles(dt) {
+      particles.forEach(p => {
+        p.x     += Math.cos(p.angle) * p.speed * dt;
+        p.y     += Math.sin(p.angle) * p.speed * dt;
+        p.angle += p.drift;
+        if (p.x < 0) p.x += 1;
+        if (p.x > 1) p.x -= 1;
+        if (p.y < 0) p.y += 1;
+        if (p.y > 1) p.y -= 1;
+        p.glintAge += dt;
+        if (p.glintAge >= p.glintCd) {
+          p.glint    = 1;
+          p.glintAge = 0;
+          p.glintCd  = Math.random() * 500 + 150;
+        }
+        if (p.glint > 0) p.glint = Math.max(0, p.glint - dt * 0.004);
+      });
+    }
+
+    function drawParticles() {
+      particles.forEach(p => {
+        const x = p.x * W;
+        const y = p.y * H;
+        const a = p.alpha + p.glint * 0.62;
+        const r = p.r + p.glint * 1.8;
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 222, 165, ${a})`;
+        ctx.fill();
+      });
+    }
+
+    // ── FILM GRAIN ───────────────────────────
+    function refreshGrain() {
+      const gw = grainCanvas.width;
+      const gh = grainCanvas.height;
+      if (!gw || !gh) return;
+      const img = grainCtx.createImageData(gw, gh);
+      const d   = img.data;
+      for (let i = 0; i < d.length; i += 4) {
+        const v  = Math.random() * 255 | 0;
+        d[i] = d[i+1] = d[i+2] = v;
+        d[i+3] = (Math.random() * 20) | 0;
+      }
+      grainCtx.putImageData(img, 0, 0);
+    }
+
+    // ── FLICKER ──────────────────────────────
+    let flickBright = 1;
+    let flickTarget = 1;
+    let flickWait   = 10;
+    let flickCount  = 0;
+
+    function stepFlicker() {
+      flickCount++;
+      if (flickCount >= flickWait) {
+        flickTarget = 0.88 + Math.random() * 0.13;
+        flickWait   = Math.floor(Math.random() * 14 + 5);
+        if (Math.random() < 0.04) {       // rare deep dip
+          flickTarget = 0.52 + Math.random() * 0.24;
+          flickWait   = Math.floor(Math.random() * 4 + 2);
+        }
+        flickCount = 0;
+      }
+      flickBright += (flickTarget - flickBright) * 0.2;
+    }
+
+    // ── BEZIER HELPERS ───────────────────────
+    function arcCtrl(x1, y1, x2, y2) {
       const mx   = (x1 + x2) / 2;
       const my   = (y1 + y2) / 2;
       const dist = Math.hypot(x2 - x1, y2 - y1);
       const ang  = Math.atan2(y2 - y1, x2 - x1);
-      // Offset perpendicular + slightly toward top of canvas
-      const cx = mx + Math.sin(ang)  * dist * 0.22;
-      const cy = my - Math.abs(Math.cos(ang)) * dist * 0.22 - dist * 0.08;
-      return [cx, cy];
-    }
-
-    // Point on a quadratic bezier at t (0–1)
-    function bezierPoint(x1, y1, cx, cy, x2, y2, t) {
-      const u = 1 - t;
       return [
-        u * u * x1 + 2 * u * t * cx + t * t * x2,
-        u * u * y1 + 2 * u * t * cy + t * t * y2,
+        mx + Math.sin(ang)  * dist * 0.21,
+        my - Math.abs(Math.cos(ang)) * dist * 0.21 - dist * 0.07,
       ];
     }
 
-    // Easing
-    function easeInOut(t) {
-      return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+    function bezPt(x1, y1, cx, cy, x2, y2, t) {
+      const u = 1 - t;
+      return [
+        u*u*x1 + 2*u*t*cx + t*t*x2,
+        u*u*y1 + 2*u*t*cy + t*t*y2,
+      ];
     }
 
-    // Timeline (ms)
-    const T_GRID_FADE  =  900;   // grid fade in duration
-    const T_DOTS_START =  900;
-    const T_DOTS_DUR   = 1400;
-    const T_PATH_START = 2000;
-    const T_PATH_EACH  =  380;   // ms per path segment
+    function easeIO(t) { return t < 0.5 ? 2*t*t : -1 + (4-2*t)*t; }
 
-    let animStart = null;
-
-    function drawGrid(alpha) {
-      ctx.save();
-      ctx.strokeStyle = `rgba(184, 150, 90, ${alpha * 0.11})`;
-      ctx.lineWidth   = 0.5;
+    // ── DRAW: MAP ────────────────────────────
+    function drawGraticule() {
+      const g = d3.geoGraticule()();
+      ctx.beginPath();
+      geoPathGen(g);
+      ctx.strokeStyle = 'rgba(184, 150, 90, 0.055)';
+      ctx.lineWidth   = 0.4;
       ctx.setLineDash([]);
+      ctx.stroke();
+    }
 
-      // Latitude lines every 30°
-      for (let lat = -60; lat <= 60; lat += 30) {
-        const [x1, y] = geoToCanvas(lat, -180);
-        const [x2]    = geoToCanvas(lat,  180);
-        ctx.beginPath();
-        ctx.moveTo(x1, y);
-        ctx.lineTo(x2, y);
-        ctx.stroke();
-      }
-
-      // Longitude lines every 30°
-      for (let lng = -180; lng <= 180; lng += 30) {
-        const [x, y1] = geoToCanvas( 90, lng);
-        const [,  y2] = geoToCanvas(-90, lng);
-        ctx.beginPath();
-        ctx.moveTo(x, y1);
-        ctx.lineTo(x, y2);
-        ctx.stroke();
-      }
+    function drawLand(alpha) {
+      if (!geoLand) return;
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.beginPath();
+      geoPathGen(geoLand);
+      ctx.fillStyle = 'rgb(40, 33, 23)';
+      ctx.fill();
+      ctx.beginPath();
+      geoPathGen(geoLand);
+      ctx.strokeStyle = 'rgba(105, 86, 60, 0.65)';
+      ctx.lineWidth   = 0.75;
+      ctx.stroke();
+      ctx.beginPath();
+      geoPathGen(geoBorders);
+      ctx.strokeStyle = 'rgba(68, 55, 38, 0.45)';
+      ctx.lineWidth   = 0.38;
+      ctx.stroke();
       ctx.restore();
     }
 
     function drawDots(progress, elapsed) {
-      const count = Math.min(LOCATIONS.length, Math.floor(progress * LOCATIONS.length + 1));
+      const count = Math.min(LOCS.length, Math.ceil(progress * LOCS.length));
       for (let i = 0; i < count; i++) {
-        const [x, y] = geoToCanvas(LOCATIONS[i][0], LOCATIONS[i][1]);
-
-        // Slow pulse ring (idle loop)
-        const pulseT  = ((elapsed * 0.0004 + i * 0.3) % 1);
-        const pulseR  = 4 + pulseT * 14;
-        const pulseA  = (1 - pulseT) * 0.25;
+        const pt = toXY(LOCS[i][0], LOCS[i][1]);
+        if (!pt) continue;
+        const [x, y] = pt;
+        // Slow expanding pulse ring
+        const pulseT = ((elapsed * 0.00034 + i * 0.26) % 1);
         ctx.beginPath();
-        ctx.arc(x, y, pulseR, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(184, 150, 90, ${pulseA})`;
-        ctx.lineWidth   = 0.8;
+        ctx.arc(x, y, 4 + pulseT * 12, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(212, 174, 102, ${(1 - pulseT) * 0.21})`;
+        ctx.lineWidth = 0.8;
         ctx.setLineDash([]);
         ctx.stroke();
-
-        // Outer ring (static)
+        // Static ring
         ctx.beginPath();
         ctx.arc(x, y, 4.5, 0, Math.PI * 2);
-        ctx.strokeStyle = 'rgba(184, 150, 90, 0.35)';
-        ctx.lineWidth   = 0.8;
+        ctx.strokeStyle = 'rgba(212, 174, 102, 0.38)';
+        ctx.lineWidth = 0.8;
         ctx.stroke();
-
         // Core dot
         ctx.beginPath();
-        ctx.arc(x, y, 2, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(184, 150, 90, 0.85)';
+        ctx.arc(x, y, 2.2, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(228, 190, 122, 0.92)';
         ctx.fill();
       }
     }
 
     function drawFlightPath(ia, ib, t) {
-      const [x1, y1] = geoToCanvas(LOCATIONS[ia][0], LOCATIONS[ia][1]);
-      const [x2, y2] = geoToCanvas(LOCATIONS[ib][0], LOCATIONS[ib][1]);
-      const [cx, cy] = controlPoint(x1, y1, x2, y2);
-
-      const steps     = 80;
-      const drawSteps = Math.max(1, Math.floor(steps * easeInOut(t)));
-
+      const a = toXY(LOCS[ia][0], LOCS[ia][1]);
+      const b = toXY(LOCS[ib][0], LOCS[ib][1]);
+      if (!a || !b) return;
+      const [x1, y1] = a;
+      const [x2, y2] = b;
+      const [cx, cy] = arcCtrl(x1, y1, x2, y2);
+      const STEPS     = 90;
+      const drawSteps = Math.max(1, Math.floor(STEPS * easeIO(t)));
       ctx.save();
-      ctx.setLineDash([3, 5]);
-      ctx.strokeStyle = 'rgba(184, 150, 90, 0.55)';
+      ctx.setLineDash([4, 7]);
+      ctx.strokeStyle = 'rgba(212, 174, 102, 0.58)';
       ctx.lineWidth   = 0.9;
-
       ctx.beginPath();
       ctx.moveTo(x1, y1);
       for (let s = 1; s <= drawSteps; s++) {
-        const [bx, by] = bezierPoint(x1, y1, cx, cy, x2, y2, s / steps);
+        const [bx, by] = bezPt(x1, y1, cx, cy, x2, y2, s / STEPS);
         ctx.lineTo(bx, by);
       }
       ctx.stroke();
-
-      // Moving particle at the path front (while still drawing)
-      if (t > 0 && t < 0.98) {
-        const pt = drawSteps / steps;
-        const [px, py] = bezierPoint(x1, y1, cx, cy, x2, y2, pt);
+      if (t > 0.02 && t < 0.96) {
+        const [px, py] = bezPt(x1, y1, cx, cy, x2, y2, drawSteps / STEPS);
         ctx.beginPath();
-        ctx.arc(px, py, 2.5, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255, 225, 160, 0.95)';
+        ctx.arc(px, py, 2.4, 0, Math.PI * 2);
         ctx.setLineDash([]);
+        ctx.fillStyle = 'rgba(255, 232, 162, 0.96)';
         ctx.fill();
       }
       ctx.restore();
     }
 
+    // ── DRAW: PROJECTOR EFFECTS ──────────────
+    function drawProjectorBeam() {
+      const cx = W * 0.5;
+      const cy = H * 0.44;
+      const r  = Math.max(W, H) * 0.72;
+      const g  = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+      g.addColorStop(0,    'rgba(255, 238, 192, 0.10)');
+      g.addColorStop(0.38, 'rgba(242, 210, 148, 0.055)');
+      g.addColorStop(0.72, 'rgba(210, 172, 100, 0.022)');
+      g.addColorStop(1,    'rgba(0, 0, 0, 0)');
+      ctx.save();
+      ctx.globalCompositeOperation = 'screen';
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, W, H);
+      ctx.restore();
+    }
+
+    function drawVignette() {
+      const g = ctx.createRadialGradient(W/2, H/2, H*0.18, W/2, H/2, H*0.9);
+      g.addColorStop(0, 'transparent');
+      g.addColorStop(1, 'rgba(7, 6, 5, 0.82)');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, W, H);
+    }
+
+    function applyGrain() {
+      ctx.save();
+      ctx.globalAlpha = 0.42;
+      ctx.globalCompositeOperation = 'screen';
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(grainCanvas, 0, 0, W, H);
+      ctx.restore();
+    }
+
+    function applyFlicker() {
+      const dark = 1 - flickBright;
+      if (dark > 0.012) {
+        ctx.fillStyle = `rgba(7, 6, 5, ${dark})`;
+        ctx.fillRect(0, 0, W, H);
+      }
+    }
+
+    // ── ANIMATION TIMELINE (ms from data-ready) ─
+    const TL = {
+      mapFade:    950,
+      dotsStart:  850,
+      dotsDur:   1350,
+      pathStart: 1900,
+      pathEach:   420,
+    };
+
+    let lastTs    = null;
+    let grainTick = 0;
+
     function frame(ts) {
-      if (!animStart) animStart = ts;
-      const elapsed = ts - animStart;
+      const dt = lastTs ? Math.min(ts - lastTs, 50) : 16;
+      lastTs = ts;
 
       ctx.clearRect(0, 0, W, H);
 
-      // Grid
-      const gridAlpha = Math.min(1, elapsed / T_GRID_FADE);
-      drawGrid(gridAlpha);
+      stepFlicker();
+      stepParticles(dt);
 
-      // Dots
-      if (elapsed > T_DOTS_START) {
-        const dotsProgress = Math.min(1, (elapsed - T_DOTS_START) / T_DOTS_DUR);
-        drawDots(dotsProgress, elapsed);
-      }
+      if (dataReady) {
+        if (!animStart) animStart = ts;
+        const el = ts - animStart;
 
-      // Flight paths
-      if (elapsed > T_PATH_START) {
-        const pathElapsed = elapsed - T_PATH_START;
-        for (let i = 0; i < FLIGHT_PATHS.length; i++) {
-          const offset = i * T_PATH_EACH;
-          if (pathElapsed < offset) break;
-          const t = Math.min(1, (pathElapsed - offset) / T_PATH_EACH);
-          drawFlightPath(FLIGHT_PATHS[i][0], FLIGHT_PATHS[i][1], t);
+        drawGraticule();
+        drawLand(Math.min(1, el / TL.mapFade));
+
+        if (el > TL.dotsStart) {
+          drawDots(Math.min(1, (el - TL.dotsStart) / TL.dotsDur), el);
+        }
+
+        if (el > TL.pathStart) {
+          const pe = el - TL.pathStart;
+          for (let i = 0; i < PATHS.length; i++) {
+            const off = i * TL.pathEach;
+            if (pe < off) break;
+            drawFlightPath(PATHS[i][0], PATHS[i][1],
+                           Math.min(1, (pe - off) / TL.pathEach));
+          }
+          // Redraw dots on top of completed paths
+          if (el > TL.dotsStart) {
+            drawDots(Math.min(1, (el - TL.dotsStart) / TL.dotsDur), el);
+          }
         }
       }
+
+      drawProjectorBeam();
+      drawParticles();
+
+      grainTick++;
+      if (grainTick % 4 === 0) refreshGrain();
+      applyGrain();
+
+      drawVignette();
+      applyFlicker();
 
       requestAnimationFrame(frame);
     }
