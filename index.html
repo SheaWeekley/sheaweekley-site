@@ -221,6 +221,12 @@
     }
     .flap-char.is-space { min-width: 0.38em; }
 
+    .flap-title-char {
+      display: inline-block;
+      transition: transform 0.04s linear;
+      will-change: transform;
+    }
+
     #heroRole {
       font-family: 'IBM Plex Mono', monospace;
       font-weight: 400;
@@ -484,7 +490,7 @@
 
     /* Tier 1 */
     .tier-1 { margin-bottom: 4rem; }
-    .project-t1 { padding: 0 2.5rem; margin-bottom: 4rem; max-width: 1100px; }
+    .project-t1 { padding: 0 2.5rem; margin-bottom: 4rem; max-width: 1100px; margin-left: auto; margin-right: auto; }
     .project-t1:last-child { margin-bottom: 0; }
     .project-t1 .project-header {
       display: grid;
@@ -523,7 +529,7 @@
     .project-t1 .project-video { margin-bottom: 1.5rem; }
     .project-t1 .project-description {
       font-size: clamp(0.88rem, 1.15vw, 0.98rem);
-      color: var(--work-dim);
+      color: #4A3F35;
       max-width: 680px;
       line-height: 1.85;
     }
@@ -548,7 +554,7 @@
     }
     .project-t2 .project-video { margin-bottom: 1.1rem; }
     .project-t2 .project-info { margin-bottom: 0.75rem; }
-    .project-t2 .project-description { font-size: 0.84rem; color: var(--work-dim); line-height: 1.78; }
+    .project-t2 .project-description { font-size: 0.84rem; color: #4A3F35; line-height: 1.78; }
 
     /* Tier 3 */
     .tier-3 { padding: 0 2.5rem; margin-bottom: 5rem; }
@@ -565,7 +571,7 @@
     }
     .project-t3 .project-video { margin-bottom: 0.9rem; }
     .project-t3 .project-info { margin-bottom: 0.6rem; }
-    .project-t3 .project-description { font-size: 0.81rem; color: var(--work-dim); line-height: 1.72; }
+    .project-t3 .project-description { font-size: 0.81rem; color: #4A3F35; line-height: 1.72; }
 
     /* Footer */
     footer {
@@ -1418,17 +1424,99 @@
     entries.forEach(e => { if (e.isIntersecting) boardingPass.classList.add('revealed'); });
   }, { threshold: 0.2 }).observe(boardingPass);
 
-  // Project scroll reveal
+  // ═══════════════════════════════════════════
+  // FLAP TITLES — fires on each project title when it scrolls into view
+  // ═══════════════════════════════════════════
+  const TITLE_POOL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789·—/: ';
+
+  function flapTitle(el) {
+    // Collect text nodes only — skip <em> child structure by working on full textContent
+    // but preserve the inner HTML structure (em tags for subtitles)
+    // Strategy: wrap each character of the plain text in spans, animate, then restore
+    const originalHTML = el.innerHTML;
+    const fullText = el.textContent;
+
+    // Build span-wrapped version preserving em structure
+    // We walk child nodes and wrap each character in spans
+    function wrapChars(node) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const frag = document.createDocumentFragment();
+        node.textContent.split('').forEach(char => {
+          const span = document.createElement('span');
+          span.className = 'flap-title-char';
+          span.textContent = char === ' ' ? '\u00A0' : '·';
+          span.dataset.target = char;
+          frag.appendChild(span);
+        });
+        return frag;
+      } else if (node.nodeName === 'EM') {
+        const em = document.createElement('em');
+        Array.from(node.childNodes).forEach(child => {
+          em.appendChild(wrapChars(child));
+        });
+        return em;
+      }
+      return node.cloneNode(true);
+    }
+
+    el.innerHTML = '';
+    const originalNodes = [];
+    // Parse original HTML to get nodes
+    const temp = document.createElement('div');
+    temp.innerHTML = originalHTML;
+    Array.from(temp.childNodes).forEach(child => {
+      el.appendChild(wrapChars(child));
+    });
+
+    // Animate all spans
+    const spans = el.querySelectorAll('.flap-title-char');
+    spans.forEach((span, i) => {
+      const target = span.dataset.target;
+      if (target === ' ') { span.textContent = '\u00A0'; return; }
+      const delay = i * 28;
+      const iters = 5 + Math.floor(Math.random() * 5);
+      let count = 0;
+      let pendingRaf = null;
+      setTimeout(() => {
+        const tick = setInterval(() => {
+          count++;
+          if (count >= iters) {
+            if (pendingRaf) { cancelAnimationFrame(pendingRaf); pendingRaf = null; }
+            clearInterval(tick);
+            span.style.transform = 'scaleY(1)';
+            span.textContent = target;
+          } else {
+            span.style.transform = 'scaleY(0.05)';
+            const next = TITLE_POOL[Math.floor(Math.random() * TITLE_POOL.length)];
+            pendingRaf = requestAnimationFrame(() => {
+              pendingRaf = requestAnimationFrame(() => {
+                pendingRaf = null;
+                span.textContent = next === ' ' ? '\u00A0' : next;
+                span.style.transform = 'scaleY(1)';
+              });
+            });
+          }
+        }, 42);
+      }, delay);
+    });
+  }
+
+  // Project scroll reveal — also fires flap on titles
   const revealTargets = document.querySelectorAll('.project-t1, .project-t2, .project-t3');
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const idx = Array.from(revealTargets).indexOf(entry.target);
-        setTimeout(() => entry.target.classList.add('revealed'), (idx % 3) * 110);
+        const delay = (idx % 3) * 110;
+        setTimeout(() => {
+          entry.target.classList.add('revealed');
+          const titleEl = entry.target.querySelector('.project-title');
+          if (titleEl) flapTitle(titleEl);
+        }, delay);
         revealObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
   revealTargets.forEach(el => revealObserver.observe(el));
 
   // CRT parallax glare
