@@ -860,6 +860,11 @@
   const ROUTES = [
     [0, 7], [7, 4], [4, 6], [6, 9], [9, 8],
     [8, 7], [0, 1], [1, 2], [2, 3], [3, 5], [5, 0],
+    // additional routes
+    [2, 5],   // Lima → Amazon
+    [6, 8],   // Ajman → Riyadh
+    [7, 9],   // Nairobi → Al Ula
+    [1, 4],   // Philadelphia → Ladakh
   ];
 
   // Timing constants (ms)
@@ -886,7 +891,7 @@
   // ═══════════════════════════════════════════
   function buildProjection() {
     // Fill canvas width — Natural Earth projection scaled to canvas
-    const scale = W * 0.165;
+    const scale = W * 0.192;
     projection  = d3.geoNaturalEarth1()
       .scale(scale)
       .translate([W / 2, H / 2]);
@@ -979,19 +984,26 @@
       const delay = i * 90;
       const iters = 9 + Math.floor(Math.random() * 7);
       let count = 0;
+      let pendingRaf = null;   // track queued rAF so we can cancel it
       setTimeout(() => {
         const tick = setInterval(() => {
           count++;
           if (count >= iters) {
-            span.textContent = target;
+            // Cancel any rAF still in flight before locking the final char
+            if (pendingRaf) { cancelAnimationFrame(pendingRaf); pendingRaf = null; }
             clearInterval(tick);
+            span.style.transform  = 'scaleY(1)';
+            span.textContent      = target;
           } else {
             span.style.transform = 'scaleY(0.05)';
             const next = FLAP_POOL[Math.floor(Math.random() * FLAP_POOL.length)];
-            requestAnimationFrame(() => requestAnimationFrame(() => {
-              span.textContent = next;
-              span.style.transform = 'scaleY(1)';
-            }));
+            pendingRaf = requestAnimationFrame(() => {
+              pendingRaf = requestAnimationFrame(() => {
+                pendingRaf = null;
+                span.textContent    = next;
+                span.style.transform = 'scaleY(1)';
+              });
+            });
           }
         }, 55);
       }, delay);
@@ -1359,19 +1371,49 @@
   // ═══════════════════════════════════════════
   // SCROLL + INTERACTION
   // ═══════════════════════════════════════════
+  // VHS static decay — drains even when scroll events stop
+  let lastScrollTime = 0;
+  let scrollVel = 0;
+
   window.addEventListener('scroll', () => {
     const heroH   = document.getElementById('hero').offsetHeight;
     const scrollY = window.scrollY;
+    const now     = performance.now();
 
     mainNav.classList.toggle('visible', scrollY > heroH + 80);
 
-    const workTop   = workSection.getBoundingClientRect().top;
+    const workTop = workSection.getBoundingClientRect().top;
+
+    // Only fire static within 180px of the work section top edge crossing the viewport.
+    // Once inside the work section (workTop < -180) or well above it (workTop > 180),
+    // static stays zero regardless of scroll speed.
     const proximity = Math.max(0, 1 - Math.abs(workTop) / 180);
-    const velBoost  = Math.min(0.5, Math.abs(scrollY - lastScrollY) * 0.013);
-    staticTarget    = Math.max(proximity * 0.88, velBoost);
-    if (proximity < 0.04 && velBoost < 0.04) staticTarget = 0;
-    lastScrollY = scrollY;
+
+    if (proximity > 0.02) {
+      const timeDelta = Math.max(1, now - lastScrollTime);
+      const posDelta  = Math.abs(scrollY - lastScrollY);
+      scrollVel       = Math.min(0.9, (posDelta / timeDelta) * 14);
+      staticTarget    = Math.max(proximity * 0.88, scrollVel * 0.55);
+    } else {
+      // Completely outside the trigger zone — kill it immediately
+      scrollVel    = 0;
+      staticTarget = 0;
+    }
+
+    lastScrollY    = scrollY;
+    lastScrollTime = now;
   }, { passive: true });
+
+  // Drain staticTarget to zero when scroll events stop firing
+  function drainStatic() {
+    const timeSinceScroll = performance.now() - lastScrollTime;
+    if (timeSinceScroll > 80) {
+      staticTarget = Math.max(0, staticTarget - 0.04);
+      scrollVel    = 0;
+    }
+    requestAnimationFrame(drainStatic);
+  }
+  requestAnimationFrame(drainStatic);
 
   // Boarding pass reveal
   new IntersectionObserver((entries) => {
@@ -1380,14 +1422,16 @@
 
   // Project scroll reveal
   const revealTargets = document.querySelectorAll('.project-t1, .project-t2, .project-t3');
-  new IntersectionObserver((entries) => {
+  const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const idx = Array.from(revealTargets).indexOf(entry.target);
         setTimeout(() => entry.target.classList.add('revealed'), (idx % 3) * 110);
+        revealObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }).observe(...revealTargets);
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  revealTargets.forEach(el => revealObserver.observe(el));
 
   // CRT parallax glare
   document.addEventListener('mousemove', (e) => {
