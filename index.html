@@ -257,8 +257,9 @@
       border: 1px solid var(--work-border);
     }
     .project-role {
-      font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem;
-      letter-spacing: 0.08em; color: #6B5A4E;
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 400;
+      font-size: 0.82rem; letter-spacing: 0.14em;
+      text-transform: uppercase; color: #5A4A3E;
     }
     /* Tier 1 */
     .tier-1 { margin-bottom: 4rem; }
@@ -300,32 +301,100 @@
     .project-t2 .project-video { margin-bottom: 1.1rem; }
     .project-t2 .project-info { margin-bottom: 0.75rem; }
     .project-t2 .project-description { font-size: 0.84rem; color: #4A3F35; line-height: 1.78; }
-    /* Tier 3 */
-    .tier-3 { padding: 0 2.5rem; margin-bottom: 5rem; }
-    .tier-3-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 2rem; max-width: 700px; }
-    .project-t3 .project-title {
-      font-family: 'Oswald', sans-serif; font-weight: 600;
-      font-size: clamp(0.9rem,1.6vw,1.28rem); line-height: 1.15;
-      color: var(--work-text); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.4rem;
-    }
-    .project-t3 .project-video { margin-bottom: 0.9rem; }
-    .project-t3 .project-info { margin-bottom: 0.6rem; }
-    .project-t3 .project-description { font-size: 0.81rem; color: #4A3F35; line-height: 1.72; }
+    /* Tier 3 folded into Tier 2 grid */
     /* Flap title chars */
     .flap-title-char { display: inline-block; transition: transform 0.04s linear; will-change: transform; }
+    /* Contact */
+    #contact {
+      background: var(--hero-bg);
+      padding: 5rem 2.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      min-height: 280px;
+    }
+    /* Decorative map-line texture — amber lines echoing the hero */
+    #contact::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          105deg,
+          transparent 0px,
+          transparent 120px,
+          rgba(200,136,42,0.04) 120px,
+          rgba(200,136,42,0.04) 121px
+        ),
+        repeating-linear-gradient(
+          15deg,
+          transparent 0px,
+          transparent 180px,
+          rgba(200,136,42,0.03) 180px,
+          rgba(200,136,42,0.03) 181px
+        );
+      pointer-events: none;
+    }
+    /* Scan lines — matches hero */
+    #contact::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px, transparent 2px,
+        rgba(18,10,3,0.055) 2px, rgba(18,10,3,0.055) 3px
+      );
+      pointer-events: none;
+    }
+    .contact-inner {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      text-align: center;
+    }
+    .contact-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(200,136,42,0.5);
+    }
+    .contact-email {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 600;
+      font-size: clamp(1rem, 2vw, 1.6rem);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(232,224,208,0.9);
+      text-decoration: none;
+      transition: color 0.25s ease;
+      text-shadow: 0 0 30px rgba(200,136,42,0.15);
+    }
+    .contact-email:hover { color: rgba(200,136,42,0.9); }
+    .contact-divider {
+      width: 32px;
+      height: 1px;
+      background: rgba(200,136,42,0.25);
+    }
     /* Footer */
     footer {
-      background: var(--work-bg); padding: 2.5rem;
-      border-top: 1px solid var(--work-line);
+      background: var(--hero-bg); padding: 1.75rem 2.5rem;
+      border-top: 1px solid rgba(200,136,42,0.1);
       display: flex; justify-content: space-between; align-items: center;
     }
     .footer-name {
       font-family: 'Barlow Condensed', sans-serif; font-size: 0.63rem;
-      letter-spacing: 0.18em; text-transform: uppercase; color: var(--work-dim);
+      letter-spacing: 0.18em; text-transform: uppercase; color: rgba(200,136,42,0.4);
     }
     .footer-copy {
       font-family: 'IBM Plex Mono', monospace; font-size: 0.55rem;
-      letter-spacing: 0.08em; color: var(--work-dim); opacity: 0.45;
+      letter-spacing: 0.08em; color: rgba(200,136,42,0.25);
     }
     /* Responsive */
     @media (max-width: 900px) { .tier-2-grid { grid-template-columns: 1fr 1fr; } }
@@ -377,14 +446,12 @@
         </div>
         <div class="bp-text">
           <div class="bp-tag">SW &middot; PAX &middot; DOCUMENTARY DP / EDITOR</div>
-          <p class="bp-bio">Curiosity. The compulsory kind. The kind that takes you to 28 countries on 5 continents — from the plains of the Masai Mara to the Arctic Circle, from French break-dancers to Paralympic javelin throwers. Itchy, pushy, relentless curiosity. It's taken me everywhere.</p>
+          <p class="bp-bio">Curiosity. The compulsory kind. The kind that takes you to 28 countries on 5 continents — from the plains of the Masai Mara to the Arctic Circle, from French break-dancers to Paralympic javelin throwers. Itchy, pushy, relentless curiosity. It's taken me everywhere. And it's given me the tools to build stories that won't leave you alone.</p>
         </div>
       </div>
       <div class="bp-strip">
         <span class="bp-cred">Emmy Nominated</span><span class="bp-sep">/</span>
         <span class="bp-cred">Tribeca</span><span class="bp-sep">/</span>
-        <span class="bp-cred">28 Countries</span><span class="bp-sep">/</span>
-        <span class="bp-cred">5 Continents</span><span class="bp-sep">/</span>
         <span class="bp-cred">Amazon &middot; Hulu &middot; Olympic Channel</span>
       </div>
     </div>
@@ -472,13 +539,7 @@
           <div class="project-info"><span class="badge">The Olympic Channel</span><span class="project-role">Editor</span></div>
           <p class="project-description">The inspiring stories behind a new generation of African athletes — each with their tragedies and triumphs, struggles and strengths.</p>
         </article>
-      </div>
-    </div>
-
-    <div class="coord-divider"><span class="coord-label">24°N 46°E → 26°N 37°E</span></div>
-    <div class="tier-3">
-      <div class="tier-3-grid">
-        <article class="project-t3">
+        <article class="project-t2">
           <div class="project-video">
             <iframe src="https://player.vimeo.com/video/1013383873?h=2899089c1b&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
           </div>
@@ -486,7 +547,7 @@
           <div class="project-info"><span class="badge">Saudia Airlines</span><span class="project-role">Director</span></div>
           <p class="project-description">From forested mountains to pristine seashores to glittering metropolises — Arabia's cuisine, culture, and humanity, revealed.</p>
         </article>
-        <article class="project-t3">
+        <article class="project-t2">
           <div class="project-video">
             <iframe src="https://player.vimeo.com/video/1094438708?h=dfe2120566&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
           </div>
@@ -495,6 +556,14 @@
           <p class="project-description">Three uninitiated hosts discover Saudi Arabia for the first time — from the deserts of Al Ula to the bustling coasts of Jeddah.</p>
         </article>
       </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="contact-inner">
+      <div class="contact-label">Get in touch</div>
+      <div class="contact-divider"></div>
+      <a href="mailto:sheaweekley@gmail.com" class="contact-email">sheaweekley@gmail.com</a>
     </div>
   </section>
 
