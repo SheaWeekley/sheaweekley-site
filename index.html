@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Shea Weekley — Director, DP, Editor. Tribeca. Hulu. Olympic Channel. Amazon.">
+  <meta name="description" content="Shea Weekley — Documentary Director of Photography & Editor. Tribeca. Hulu. Olympic Channel. Amazon.">
   <title>Shea Weekley</title>
 
   <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
@@ -17,21 +17,18 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --hero-bg:    #080604;
+      --hero-bg:    #060402;
       --text:       #E8E0D0;
       --amber:      #C8882A;
-      --amber-mid:  rgba(200, 136, 42, 0.35);
-      --amber-low:  rgba(200, 136, 42, 0.12);
       --work-bg:    #F0EBE2;
       --work-text:  #1A1410;
       --work-dim:   #8A7E72;
       --work-gold:  #9B7A3A;
-      --work-border:rgba(155, 122, 58, 0.28);
-      --work-line:  rgba(155, 122, 58, 0.18);
+      --work-border:rgba(155,122,58,0.28);
+      --work-line:  rgba(155,122,58,0.18);
     }
 
     html { scroll-behavior: smooth; }
-
     body {
       background: var(--hero-bg);
       color: var(--text);
@@ -43,51 +40,33 @@
 
     /* ── NAV ── */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 200;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; justify-content: space-between; align-items: center;
       padding: 1.4rem 2.5rem;
-      opacity: 0;
-      pointer-events: none;
+      opacity: 0; pointer-events: none;
       transition: opacity 0.5s, background 0.5s, border-color 0.5s;
       border-bottom: 1px solid transparent;
     }
     nav.visible {
-      opacity: 1;
-      pointer-events: auto;
-      background: rgba(240, 235, 226, 0.96);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      opacity: 1; pointer-events: auto;
+      background: rgba(240,235,226,0.96);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
       border-bottom-color: var(--work-line);
     }
     .nav-name {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 600;
-      font-size: 0.78rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--work-text);
-      text-decoration: none;
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 600;
+      font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--work-text); text-decoration: none;
     }
     .nav-credits {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.62rem;
-      letter-spacing: 0.08em;
-      color: var(--work-gold);
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+      letter-spacing: 0.08em; color: var(--work-gold);
     }
 
     /* ── HERO ── */
     #hero {
-      position: relative;
-      width: 100%;
-      height: 100svh;
-      min-height: 600px;
-      background: var(--hero-bg);
-      border-radius: 3% / 2.5%;
-      overflow: hidden;
+      position: relative; width: 100%; height: 100svh; min-height: 600px;
+      background: var(--hero-bg); border-radius: 3% / 2.5%; overflow: hidden;
       box-shadow:
         inset 0 0 120px rgba(0,0,0,0.85),
         inset 80px 0 200px rgba(0,0,0,0.55),
@@ -95,518 +74,261 @@
         inset 0 80px 200px rgba(0,0,0,0.5),
         inset 0 -80px 200px rgba(0,0,0,0.6);
     }
-
-    /* Warm scan lines */
     #hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
+      content: ''; position: absolute; inset: 0;
       background: repeating-linear-gradient(
-        to bottom,
-        transparent 0px, transparent 2px,
+        to bottom, transparent 0px, transparent 2px,
         rgba(18,10,3,0.065) 2px, rgba(18,10,3,0.065) 3px
       );
-      pointer-events: none;
-      z-index: 20;
-      border-radius: inherit;
+      pointer-events: none; z-index: 20; border-radius: inherit;
     }
-
-    /* Glass highlight */
     #hero::after {
-      content: '';
-      position: absolute;
-      inset: 0;
+      content: ''; position: absolute; inset: 0;
       background: radial-gradient(ellipse 55% 38% at 27% 17%,
         rgba(255,230,180,0.03) 0%, transparent 66%);
-      pointer-events: none;
-      z-index: 21;
-      border-radius: inherit;
+      pointer-events: none; z-index: 21; border-radius: inherit;
     }
 
-    #routeMap {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
+    #routeMap { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 
-    /* Departure cards */
-    #departureCards {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      z-index: 3;
-    }
+    /* ── DEPARTURE CARDS ── */
+    #departureCards { position: absolute; inset: 0; pointer-events: none; z-index: 4; }
     .dep-card {
       position: absolute;
-      background: rgba(10,7,3,0.88);
-      border: 1px solid rgba(200,136,42,0.2);
+      background: rgba(10,7,3,0.88); border: 1px solid rgba(200,136,42,0.2);
       padding: 5px 9px 6px;
-      transform: translate(-50%, -100%) translateY(-16px);
-      opacity: 0;
-      transition: opacity 0.8s ease;
-      white-space: nowrap;
-      line-height: 1.55;
+      transform: translate(-50%,-100%) translateY(-16px);
+      opacity: 0; transition: opacity 0.8s ease;
+      white-space: nowrap; line-height: 1.55;
     }
     .dep-card.show { opacity: 1; }
-    .dep-flight {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 9px;
-      font-weight: 400;
-      color: rgba(200,136,42,0.9);
-      letter-spacing: 0.08em;
-    }
-    .dep-route {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 8px;
-      font-weight: 300;
-      color: rgba(200,136,42,0.55);
-      letter-spacing: 0.06em;
-    }
-    .dep-time {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 8px;
-      font-weight: 300;
-      color: rgba(200,136,42,0.38);
-      letter-spacing: 0.06em;
-    }
+    .dep-flight { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: rgba(200,136,42,0.9); letter-spacing: 0.08em; }
+    .dep-route  { font-family: 'IBM Plex Mono', monospace; font-size: 8px; color: rgba(200,136,42,0.55); letter-spacing: 0.06em; }
+    .dep-time   { font-family: 'IBM Plex Mono', monospace; font-size: 8px; color: rgba(200,136,42,0.38); letter-spacing: 0.06em; }
+    /* ── END DEPARTURE CARDS ── */
 
-    /* CRT parallax glare */
     #crtGlare {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      z-index: 15;
+      position: absolute; inset: 0; pointer-events: none; z-index: 15;
       border-radius: inherit;
       background: radial-gradient(ellipse 50% 34% at 29% 19%,
         rgba(255,230,180,0.03) 0%, rgba(255,220,160,0.008) 42%, transparent 70%);
       transition: transform 0.14s ease-out;
     }
 
-    /* ── HERO TEXT ── */
     .hero-content {
-      position: absolute;
-      inset: 0;
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 1.1rem;
-      pointer-events: none;
+      position: absolute; inset: 0; z-index: 10;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 1.1rem; pointer-events: none;
     }
-
     #heroName {
-      font-family: 'Oswald', sans-serif;
-      font-weight: 700;
+      font-family: 'Oswald', sans-serif; font-weight: 700;
       font-size: clamp(2.8rem, 8vw, 9.5rem);
-      letter-spacing: 0.09em;
-      text-transform: uppercase;
-      color: var(--text);
-      line-height: 1;
-      display: flex;
-      align-items: center;
-      text-shadow:
-        0 0 50px rgba(200,136,42,0.12),
-        2px 2px 0 rgba(0,0,0,0.65);
+      letter-spacing: 0.09em; text-transform: uppercase;
+      color: var(--text); line-height: 1;
+      text-shadow: 0 0 50px rgba(200,136,42,0.12), 2px 2px 0 rgba(0,0,0,0.65);
+      opacity: 0; transform-origin: center center;
     }
-
-    .flap-char {
-      display: inline-block;
-      min-width: 0.56em;
-      text-align: center;
-      transition: transform 0.04s linear;
-      will-change: transform;
-    }
-    .flap-char.is-space { min-width: 0.38em; }
-
-    .flap-title-char {
-      display: inline-block;
-      transition: transform 0.04s linear;
-      will-change: transform;
-    }
-
     #heroRole {
-      font-family: 'IBM Plex Mono', monospace;
-      font-weight: 400;
+      font-family: 'IBM Plex Mono', monospace; font-weight: 400;
       font-size: clamp(0.78rem, 1.35vw, 1.08rem);
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: rgba(220, 158, 60, 0.95);
-      opacity: 0;
-      transform: translateY(8px);
+      letter-spacing: 0.28em; text-transform: uppercase;
+      color: rgba(220,158,60,0.95); opacity: 0; transform: translateY(8px);
       text-shadow: 0 0 22px rgba(200,136,42,0.45);
     }
-
     .hero-scroll {
-      position: absolute;
-      bottom: 2.25rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      opacity: 0;
-      z-index: 10;
-      pointer-events: none;
+      position: absolute; bottom: 2.25rem; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 0.75rem;
+      opacity: 0; z-index: 10; pointer-events: none;
     }
     .hero-scroll-label {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.52rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: rgba(200,136,42,0.42);
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.52rem;
+      letter-spacing: 0.3em; text-transform: uppercase; color: rgba(200,136,42,0.42);
     }
     .scroll-track {
-      width: 38px;
-      height: 1px;
-      background: rgba(200,136,42,0.15);
-      position: relative;
-      overflow: hidden;
+      width: 38px; height: 1px; background: rgba(200,136,42,0.15);
+      position: relative; overflow: hidden;
     }
     .scroll-track::after {
-      content: '';
-      position: absolute;
-      top: 0; left: -60%;
-      width: 60%; height: 100%;
-      background: rgba(200,136,42,0.62);
-      animation: trackPulse 2.4s ease-in-out infinite;
-      animation-delay: 0.5s;
+      content: ''; position: absolute; top: 0; left: -60%;
+      width: 60%; height: 100%; background: rgba(200,136,42,0.62);
+      animation: trackPulse 2.4s ease-in-out infinite; animation-delay: 0.5s;
     }
-    @keyframes trackPulse {
-      0%   { left: -60%; opacity: 1; }
-      100% { left: 100%; opacity: 0; }
-    }
+    @keyframes trackPulse { 0%{left:-60%;opacity:1} 100%{left:100%;opacity:0} }
 
     /* ── ABOUT ── */
     #about {
-      background: var(--hero-bg);
-      padding: 6rem 2.5rem 7rem;
-      display: flex;
-      justify-content: center;
+      background: var(--hero-bg); padding: 6rem 2.5rem 7rem;
+      display: flex; justify-content: center;
     }
-
     .boarding-pass {
-      max-width: 760px;
-      width: 100%;
+      max-width: 760px; width: 100%;
       border: 1px solid rgba(200,136,42,0.18);
-      background: rgba(14,10,5,0.5);
-      position: relative;
-      opacity: 0;
-      transform: translateY(22px);
+      background: rgba(14,10,5,0.5); position: relative;
+      opacity: 0; transform: translateY(22px);
       transition: opacity 0.9s ease, transform 0.9s ease;
     }
     .boarding-pass.revealed { opacity: 1; transform: translateY(0); }
-
     .bp-notch {
-      position: absolute;
-      top: -1px; left: 50%;
-      transform: translateX(-50%);
-      width: 24px; height: 12px;
-      background: var(--hero-bg);
+      position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
+      width: 24px; height: 12px; background: var(--hero-bg);
       border-left: 1px solid rgba(200,136,42,0.18);
       border-right: 1px solid rgba(200,136,42,0.18);
       border-bottom: 1px solid rgba(200,136,42,0.18);
       border-radius: 0 0 50% 50%;
     }
-
-    .bp-main {
-      display: grid;
-      grid-template-columns: 200px 1fr;
-      gap: 2.5rem;
-      padding: 3rem;
-    }
-
-    .bp-photo {
-      display: flex;
-      flex-direction: column;
-    }
+    .bp-main { display: grid; grid-template-columns: 200px 1fr; gap: 2.5rem; padding: 3rem; }
+    .bp-photo { display: flex; flex-direction: column; }
     .photo-placeholder {
-      width: 100%;
-      aspect-ratio: 3 / 4;
+      width: 100%; aspect-ratio: 3/4;
       border: 1px dashed rgba(200,136,42,0.22);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(200,136,42,0.025);
-      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(200,136,42,0.025); overflow: hidden;
     }
-    .photo-placeholder img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
+    .photo-placeholder img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .photo-placeholder-label {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      color: rgba(200,136,42,0.32);
-      text-transform: uppercase;
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
+      letter-spacing: 0.2em; color: rgba(200,136,42,0.32); text-transform: uppercase;
     }
-
-    .bp-text {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 1.25rem;
-    }
+    .bp-text { display: flex; flex-direction: column; justify-content: center; gap: 1.25rem; }
     .bp-tag {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.14em;
-      color: rgba(200,136,42,0.58);
-      text-transform: uppercase;
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem;
+      letter-spacing: 0.14em; color: rgba(200,136,42,0.58); text-transform: uppercase;
     }
     .bp-bio {
-      font-family: 'Barlow', sans-serif;
-      font-weight: 300;
-      font-size: clamp(1.05rem, 1.7vw, 1.28rem);
-      line-height: 1.88;
+      font-family: 'Barlow', sans-serif; font-weight: 300;
+      font-size: clamp(1.05rem,1.7vw,1.28rem); line-height: 1.88;
       color: rgba(232,224,208,0.92);
     }
-
     .bp-strip {
-      padding: 1.25rem 3rem;
-      border-top: 1px dashed rgba(200,136,42,0.18);
-      display: flex;
-      align-items: center;
-      gap: 0.9rem;
-      flex-wrap: wrap;
+      padding: 1.25rem 3rem; border-top: 1px dashed rgba(200,136,42,0.18);
+      display: flex; align-items: center; gap: 0.9rem; flex-wrap: wrap;
     }
     .bp-cred {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.68rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: rgba(200,136,42,0.62);
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem;
+      letter-spacing: 0.1em; text-transform: uppercase; color: rgba(200,136,42,0.62);
     }
-    .bp-sep {
-      color: rgba(200,136,42,0.28);
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.75rem;
-    }
+    .bp-sep { color: rgba(200,136,42,0.28); font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; }
 
     /* ── VHS STATIC ── */
     #staticOverlay {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 999;
-      opacity: 0;
+      position: fixed; inset: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 999; opacity: 0;
     }
 
     /* ── WORK ── */
-    #work {
-      background: var(--work-bg);
-      padding: 7rem 0 6rem;
-    }
-
+    #work { background: var(--work-bg); padding: 7rem 0 6rem; }
     .coord-divider {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      padding: 0 2.5rem;
-      margin: 0 0 5rem;
+      display: flex; align-items: center; gap: 1.5rem; padding: 0 2.5rem; margin: 0 0 5rem;
     }
-    .coord-divider::before,
-    .coord-divider::after {
-      content: ''; flex: 1; height: 1px;
-      background: var(--work-line);
+    .coord-divider::before, .coord-divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--work-line);
     }
     .coord-label {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.56rem;
-      letter-spacing: 0.12em;
-      color: var(--work-gold);
-      white-space: nowrap;
-      opacity: 0.62;
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.56rem;
+      letter-spacing: 0.12em; color: var(--work-gold); white-space: nowrap; opacity: 0.62;
     }
-
     .project-t1, .project-t2, .project-t3 {
-      opacity: 0;
-      transform: translateY(24px);
+      opacity: 0; transform: translateY(24px);
       transition: opacity 0.7s ease, transform 0.7s ease;
     }
     .project-t1.revealed, .project-t2.revealed, .project-t3.revealed {
       opacity: 1; transform: translateY(0);
     }
-
     .project-video {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      background: rgba(26,20,16,0.06);
-      border: 1px solid var(--work-border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      position: relative;
+      width: 100%; aspect-ratio: 16/9;
+      background: rgba(26,20,16,0.06); border: 1px solid var(--work-border);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; position: relative;
     }
-    .project-video iframe {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%; border: none;
-    }
+    .project-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
     .video-placeholder-text {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.56rem;
-      letter-spacing: 0.16em;
-      color: var(--work-dim);
-      opacity: 0.48;
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.56rem;
+      letter-spacing: 0.16em; color: var(--work-dim); opacity: 0.48;
     }
-
-    .project-info {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.4rem 0.9rem;
-    }
+    .project-info { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.9rem; }
     .badge {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.56rem;
-      font-weight: 600;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--work-bg);
-      background: var(--work-gold);
-      padding: 0.22em 0.72em;
-      border-radius: 2px;
-      white-space: nowrap;
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.56rem; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--work-bg); background: var(--work-gold);
+      padding: 0.22em 0.72em; border-radius: 2px; white-space: nowrap;
     }
     .badge-award {
-      background: transparent !important;
-      color: var(--work-gold) !important;
+      background: transparent !important; color: var(--work-gold) !important;
       border: 1px solid var(--work-border);
     }
     .project-role {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.68rem;
-      letter-spacing: 0.08em;
-      color: #6B5A4E;
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem;
+      letter-spacing: 0.08em; color: #6B5A4E;
     }
-
     /* Tier 1 */
     .tier-1 { margin-bottom: 4rem; }
     .project-t1 { padding: 0 2.5rem; margin-bottom: 4rem; max-width: 1100px; margin-left: auto; margin-right: auto; }
     .project-t1:last-child { margin-bottom: 0; }
-    .project-t1 .project-header {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 0 2.5rem;
-      align-items: start;
-      margin-bottom: 1.75rem;
-    }
+    .project-t1 .project-header { display: grid; grid-template-columns: auto 1fr; gap: 0 2.5rem; align-items: start; margin-bottom: 1.75rem; }
     .project-index {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: clamp(0.75rem, 1.2vw, 1rem);
-      line-height: 1;
-      color: var(--work-gold);
-      opacity: 0.32;
-      padding-top: 0.55em;
-      user-select: none;
-      letter-spacing: 0.02em;
+      font-family: 'IBM Plex Mono', monospace; font-size: clamp(0.75rem,1.2vw,1rem);
+      line-height: 1; color: var(--work-gold); opacity: 0.32; padding-top: 0.55em;
+      user-select: none; letter-spacing: 0.02em;
     }
     .project-meta { display: flex; flex-direction: column; gap: 0.65rem; }
     .project-t1 .project-title {
-      font-family: 'Oswald', sans-serif;
-      font-weight: 600;
-      font-size: clamp(1.2rem, 2.2vw, 2.1rem);
-      line-height: 1.1;
-      color: var(--work-text);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
+      font-family: 'Oswald', sans-serif; font-weight: 600;
+      font-size: clamp(1.2rem,2.2vw,2.1rem); line-height: 1.1;
+      color: var(--work-text); text-transform: uppercase; letter-spacing: 0.04em;
     }
     .project-t1 .project-title em {
-      font-style: italic;
-      font-weight: 400;
-      font-size: 0.8em;
-      letter-spacing: 0.02em;
-      color: rgba(26,20,16,0.55);
-      text-transform: none;
-      display: block;
-      margin-top: 0.12em;
+      font-style: italic; font-weight: 400; font-size: 0.8em;
+      letter-spacing: 0.02em; color: rgba(26,20,16,0.55);
+      text-transform: none; display: block; margin-top: 0.12em;
     }
     .project-t1 .project-video { margin-bottom: 1.5rem; }
     .project-t1 .project-description {
-      font-size: clamp(0.88rem, 1.15vw, 0.98rem);
-      color: #4A3F35;
-      max-width: 100%;
-      line-height: 1.85;
-      border-left: 2px solid rgba(155, 122, 58, 0.35);
-      padding-left: 1.25rem;
-      margin-top: 1rem;
+      font-size: clamp(0.88rem,1.15vw,0.98rem); color: #4A3F35;
+      max-width: 100%; line-height: 1.85;
+      border-left: 2px solid rgba(155,122,58,0.35);
+      padding-left: 1.25rem; margin-top: 1rem;
     }
-
     /* Tier 2 */
     .tier-2 { padding: 0 2.5rem; margin-bottom: 6rem; }
     .tier-2-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2.5rem; }
     .project-t2 .project-title {
-      font-family: 'Oswald', sans-serif;
-      font-weight: 600;
-      font-size: clamp(0.95rem, 1.9vw, 1.5rem);
-      line-height: 1.15;
-      color: var(--work-text);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      margin-bottom: 0.5rem;
+      font-family: 'Oswald', sans-serif; font-weight: 600;
+      font-size: clamp(0.95rem,1.9vw,1.5rem); line-height: 1.15;
+      color: var(--work-text); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.5rem;
     }
-    .project-t2 .project-title em {
-      font-style: italic; font-weight: 400;
-      color: rgba(26,20,16,0.42);
-      text-transform: none;
-    }
+    .project-t2 .project-title em { font-style: italic; font-weight: 400; color: rgba(26,20,16,0.42); text-transform: none; }
     .project-t2 .project-video { margin-bottom: 1.1rem; }
     .project-t2 .project-info { margin-bottom: 0.75rem; }
     .project-t2 .project-description { font-size: 0.84rem; color: #4A3F35; line-height: 1.78; }
-
     /* Tier 3 */
     .tier-3 { padding: 0 2.5rem; margin-bottom: 5rem; }
     .tier-3-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 2rem; max-width: 700px; }
     .project-t3 .project-title {
-      font-family: 'Oswald', sans-serif;
-      font-weight: 600;
-      font-size: clamp(0.9rem, 1.6vw, 1.28rem);
-      line-height: 1.15;
-      color: var(--work-text);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      margin-bottom: 0.4rem;
+      font-family: 'Oswald', sans-serif; font-weight: 600;
+      font-size: clamp(0.9rem,1.6vw,1.28rem); line-height: 1.15;
+      color: var(--work-text); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.4rem;
     }
     .project-t3 .project-video { margin-bottom: 0.9rem; }
     .project-t3 .project-info { margin-bottom: 0.6rem; }
     .project-t3 .project-description { font-size: 0.81rem; color: #4A3F35; line-height: 1.72; }
-
+    /* Flap title chars */
+    .flap-title-char { display: inline-block; transition: transform 0.04s linear; will-change: transform; }
     /* Footer */
     footer {
-      background: var(--work-bg);
-      padding: 2.5rem;
+      background: var(--work-bg); padding: 2.5rem;
       border-top: 1px solid var(--work-line);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      display: flex; justify-content: space-between; align-items: center;
     }
     .footer-name {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.63rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--work-dim);
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.63rem;
+      letter-spacing: 0.18em; text-transform: uppercase; color: var(--work-dim);
     }
     .footer-copy {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.55rem;
-      letter-spacing: 0.08em;
-      color: var(--work-dim);
-      opacity: 0.45;
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.55rem;
+      letter-spacing: 0.08em; color: var(--work-dim); opacity: 0.45;
     }
-
     /* Responsive */
-    @media (max-width: 900px) {
-      .tier-2-grid { grid-template-columns: 1fr 1fr; }
-    }
+    @media (max-width: 900px) { .tier-2-grid { grid-template-columns: 1fr 1fr; } }
     @media (max-width: 640px) {
       nav { padding: 1.2rem 1.5rem; }
       #hero { border-radius: 0; box-shadow: none; }
@@ -627,7 +349,7 @@
 
   <nav id="main-nav">
     <a href="/" class="nav-name">Shea Weekley</a>
-    <span class="nav-credits">Director &middot; DP &middot; Editor</span>
+    <span class="nav-credits">Documentary DP &middot; Editor</span>
   </nav>
 
   <section id="hero">
@@ -635,8 +357,8 @@
     <div id="departureCards"></div>
     <div id="crtGlare"></div>
     <div class="hero-content">
-      <h1 id="heroName"></h1>
-      <div id="heroRole">Director &nbsp;&middot;&nbsp; DP &nbsp;&middot;&nbsp; Editor</div>
+      <h1 id="heroName">Shea Weekley</h1>
+      <div id="heroRole">Documentary DP &nbsp;&middot;&nbsp; Editor</div>
     </div>
     <div class="hero-scroll" id="heroScroll">
       <span class="hero-scroll-label">Scroll</span>
@@ -654,19 +376,15 @@
           </div>
         </div>
         <div class="bp-text">
-          <div class="bp-tag">SW &middot; PAX &middot; DIRECTOR / DP / EDITOR</div>
+          <div class="bp-tag">SW &middot; PAX &middot; DOCUMENTARY DP / EDITOR</div>
           <p class="bp-bio">Curiosity. The compulsory kind. The kind that takes you to 28 countries on 5 continents — from the plains of the Masai Mara to the Arctic Circle, from French break-dancers to Paralympic javelin throwers. Itchy, pushy, relentless curiosity. It's taken me everywhere.</p>
         </div>
       </div>
       <div class="bp-strip">
-        <span class="bp-cred">Emmy Nominated</span>
-        <span class="bp-sep">/</span>
-        <span class="bp-cred">Tribeca</span>
-        <span class="bp-sep">/</span>
-        <span class="bp-cred">28 Countries</span>
-        <span class="bp-sep">/</span>
-        <span class="bp-cred">5 Continents</span>
-        <span class="bp-sep">/</span>
+        <span class="bp-cred">Emmy Nominated</span><span class="bp-sep">/</span>
+        <span class="bp-cred">Tribeca</span><span class="bp-sep">/</span>
+        <span class="bp-cred">28 Countries</span><span class="bp-sep">/</span>
+        <span class="bp-cred">5 Continents</span><span class="bp-sep">/</span>
         <span class="bp-cred">Amazon &middot; Hulu &middot; Olympic Channel</span>
       </div>
     </div>
@@ -675,21 +393,15 @@
   <canvas id="staticOverlay"></canvas>
 
   <section id="work">
-
-    <div class="coord-divider">
-      <span class="coord-label">34°N 118°W → 39°N 75°W</span>
-    </div>
-
+    <div class="coord-divider"><span class="coord-label">34°N 118°W → 39°N 75°W</span></div>
     <div class="tier-1">
-
       <article class="project-t1">
         <div class="project-header">
           <div class="project-index">SW·001</div>
           <div class="project-meta">
             <h2 class="project-title">Bad Actor: <em>A Hollywood Ponzi Scheme</em></h2>
             <div class="project-info">
-              <span class="badge">Tribeca</span>
-              <span class="badge">Hulu</span>
+              <span class="badge">Tribeca</span><span class="badge">Hulu</span>
               <span class="project-role">Director of Photography &middot; Writer</span>
             </div>
           </div>
@@ -699,7 +411,6 @@
         </div>
         <p class="project-description">This film tracks the deception, the ego, and the inevitable crash of the largest Ponzi scheme in the history of California. Zachary Horwitz's desperate attempt to become a movie star led him down a path of fraud and ruin.</p>
       </article>
-
       <article class="project-t1">
         <div class="project-header">
           <div class="project-index">SW·002</div>
@@ -717,120 +428,92 @@
         </div>
         <p class="project-description">A snowboarder from Peru, a bobsledder from Brazil, and women's hockey in the Indian Himalayas. The stories and struggles of global athletes from unexpected regions attempting to make their Winter Olympic dreams come true.</p>
       </article>
-
       <article class="project-t1">
         <div class="project-header">
           <div class="project-index">SW·003</div>
           <div class="project-meta">
             <h2 class="project-title">Fletcher Street</h2>
             <div class="project-info">
-              <span class="badge">HotDocs</span>
-              <span class="badge">DC/DOX</span>
-              <span class="badge">Mountain Film</span>
+              <span class="badge">HotDocs</span><span class="badge">DC/DOX</span><span class="badge">Mountain Film</span>
               <span class="project-role">Co-Director of Photography &middot; Co-Editor</span>
             </div>
           </div>
         </div>
-        <div class="project-video">
-          <!-- ADD VIMEO -->
-          <span class="video-placeholder-text">[ Vimeo embed ]</span>
-        </div>
+        <div class="project-video"><span class="video-placeholder-text">[ Vimeo embed — pending ]</span></div>
         <p class="project-description">In the heart of North Philadelphia, where violence and instability are a daily reality, the Fletcher Street Urban Riding Club offers something rare: a safe haven. A moving portrait of a community where love, mentorship, and horses come together to change lives.</p>
       </article>
-
     </div>
 
-    <div class="coord-divider">
-      <span class="coord-label">3°S 60°W → 25°N 55°E</span>
-    </div>
-
+    <div class="coord-divider"><span class="coord-label">3°S 60°W → 25°N 55°E</span></div>
     <div class="tier-2">
       <div class="tier-2-grid">
         <article class="project-t2">
-          <div class="project-video"><iframe src="https://player.vimeo.com/video/720055769?h=5e9b7f3a76&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
-          <h2 class="project-title">The Climate Pledge: <em>Future Forward</em></h2>
-          <div class="project-info">
-            <span class="badge">Amazon Prime</span>
-            <span class="project-role">Editor</span>
+          <div class="project-video">
+            <iframe src="https://player.vimeo.com/video/720055769?h=5e9b7f3a76&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
           </div>
+          <h2 class="project-title">The Climate Pledge: <em>Future Forward</em></h2>
+          <div class="project-info"><span class="badge">Amazon Prime</span><span class="project-role">Editor</span></div>
           <p class="project-description">Boots on the ground in the Amazon explore how we can restore the world's greatest forest and keep a growing world fed.</p>
         </article>
         <article class="project-t2">
-          <div class="project-video"><span class="video-placeholder-text">[ Vimeo embed ]</span></div>
+          <div class="project-video"><span class="video-placeholder-text">[ Vimeo embed — pending ]</span></div>
           <h2 class="project-title">Ajman Stud</h2>
           <div class="project-info">
-            <span class="badge">Amazon Prime</span>
-            <span class="badge">Apple TV</span>
-            <span class="badge">Tubi</span>
+            <span class="badge">Amazon Prime</span><span class="badge">Apple TV</span><span class="badge">Tubi</span>
             <span class="project-role">Editor</span>
           </div>
           <p class="project-description">A behind-the-scenes look at the beauty, training, and competition inside the crown prince of Ajman's majestic, 250-strong collection of Arabian horses.</p>
         </article>
         <article class="project-t2">
-          <div class="project-video"><iframe src="https://player.vimeo.com/video/767070109?h=6f8e00c8d1&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
-          <h2 class="project-title">Playing Fields</h2>
-          <div class="project-info">
-            <span class="badge">The Olympic Channel</span>
-            <span class="project-role">Editor</span>
+          <div class="project-video">
+            <iframe src="https://player.vimeo.com/video/767070109?h=6f8e00c8d1&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
           </div>
+          <h2 class="project-title">Playing Fields</h2>
+          <div class="project-info"><span class="badge">The Olympic Channel</span><span class="project-role">Editor</span></div>
           <p class="project-description">The inspiring stories behind a new generation of African athletes — each with their tragedies and triumphs, struggles and strengths.</p>
         </article>
       </div>
     </div>
 
-    <div class="coord-divider">
-      <span class="coord-label">24°N 46°E → 26°N 37°E</span>
-    </div>
-
+    <div class="coord-divider"><span class="coord-label">24°N 46°E → 26°N 37°E</span></div>
     <div class="tier-3">
       <div class="tier-3-grid">
         <article class="project-t3">
-          <div class="project-video"><iframe src="https://player.vimeo.com/video/1013383873?h=2899089c1b&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
-          <h2 class="project-title">Next Stop</h2>
-          <div class="project-info">
-            <span class="badge">Saudia Airlines</span>
-            <span class="project-role">Director</span>
+          <div class="project-video">
+            <iframe src="https://player.vimeo.com/video/1013383873?h=2899089c1b&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
           </div>
+          <h2 class="project-title">Next Stop</h2>
+          <div class="project-info"><span class="badge">Saudia Airlines</span><span class="project-role">Director</span></div>
           <p class="project-description">From forested mountains to pristine seashores to glittering metropolises — Arabia's cuisine, culture, and humanity, revealed.</p>
         </article>
         <article class="project-t3">
-          <div class="project-video"><iframe src="https://player.vimeo.com/video/1094438708?h=dfe2120566&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
-          <h2 class="project-title">Expo 2020</h2>
-          <div class="project-info">
-            <span class="badge">Saudi Ministry of Culture</span>
-            <span class="project-role">Editor</span>
+          <div class="project-video">
+            <iframe src="https://player.vimeo.com/video/1094438708?h=dfe2120566&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
           </div>
+          <h2 class="project-title">Expo 2020</h2>
+          <div class="project-info"><span class="badge">Saudi Ministry of Culture</span><span class="project-role">Editor</span></div>
           <p class="project-description">Three uninitiated hosts discover Saudi Arabia for the first time — from the deserts of Al Ula to the bustling coasts of Jeddah.</p>
         </article>
       </div>
     </div>
-
   </section>
 
   <footer>
-    <span class="footer-name">Shea Weekley &middot; Director &middot; DP &middot; Editor</span>
+    <span class="footer-name">Shea Weekley &middot; Documentary DP &middot; Editor</span>
     <span class="footer-copy">Virginia Beach, VA &middot; Worldwide</span>
   </footer>
 
   <script>
   // ═══════════════════════════════════════════
-  // STATE — all declared before any calls
+  // STATE
   // ═══════════════════════════════════════════
   let W, H;
-  let geoLand = null, dataReady = false;
-  let particles = [];
-  let flickBright = 1, flickTarget = 1, flickWait = 10, flickCount = 0;
-  let lastTs = null, grainTick = 0;
-  let nameAnimated = false, uiShown = false, mapAlpha = 0;
-  let dashOffset = 0;
-  let staticIntensity = 0, staticTarget = 0, lastScrollY = 0;
+  let geoLand = null, dataReady = false, animStart = null;
+  let flickBright=1, flickTarget=1, flickWait=10, flickCount=0;
+  let lastTs=null, grainTick=0;
+  let mapAlpha=0, dashOffset=0;
+  let staticIntensity=0, staticTarget=0, lastScrollY=0;
   let projection, geoPathGen;
-  let animStart = null;
-
-  // ── Route state machine ──
-  // Each route has an independent lifecycle: drawing → holding → fading → idle
-  // New routes trigger on a rolling interval so the map stays alive forever
-  const ROUTE_STATES = []; // populated after ROUTES defined
 
   // ═══════════════════════════════════════════
   // ELEMENTS
@@ -848,85 +531,96 @@
   const boardingPass = document.getElementById('boardingPass');
   const workSection  = document.getElementById('work');
 
-  const grainCanvas = document.createElement('canvas');
-  const grainCtx    = grainCanvas.getContext('2d');
+  const grainCanvas  = document.createElement('canvas');
+  const grainCtx     = grainCanvas.getContext('2d');
 
   // ═══════════════════════════════════════════
-  // LOCATIONS & ROUTES
+  // WORLD CITIES
   // ═══════════════════════════════════════════
-  const LOCS = [
-    { lat:34.05,  lng:-118.24, code:'LAX', label:'LOS ANGELES',  flight:'SW·101', dest:'NBO', time:'22:40' },
-    { lat:39.95,  lng:-75.16,  code:'PHL', label:'PHILADELPHIA', flight:'SW·203', dest:'BOG', time:'06:15' },
-    { lat:-12.05, lng:-77.04,  code:'LIM', label:'LIMA',         flight:'SW·318', dest:'GIG', time:'18:30' },
-    { lat:-15.78, lng:-47.93,  code:'BSB', label:'BRASÍLIA',     flight:'SW·442', dest:'MIA', time:'03:40' },
-    { lat:34.15,  lng:77.58,   code:'IXL', label:'LADAKH',       flight:'SW·287', dest:'DEL', time:'08:20' },
-    { lat:-3.12,  lng:-60.02,  code:'MAO', label:'AMAZON',       flight:'SW·156', dest:'GRU', time:'11:15' },
-    { lat:25.41,  lng:55.44,   code:'DXB', label:'AJMAN',        flight:'SW·391', dest:'NBO', time:'14:45' },
-    { lat:-1.29,  lng:36.82,   code:'NBO', label:'NAIROBI',      flight:'SW·512', dest:'LAX', time:'23:10' },
-    { lat:24.69,  lng:46.72,   code:'RUH', label:'RIYADH',       flight:'SW·624', dest:'LHR', time:'00:50' },
-    { lat:26.62,  lng:37.92,   code:'ULH', label:'AL ULA',       flight:'SW·733', dest:'DXB', time:'17:20' },
+  const WORLD_CITIES = [
+    // Primary filming locations (with departure card data)
+    { lat:34.05,  lng:-118.24, primary:true,  flight:'SW·101', code:'LAX', dest:'NBO', time:'22:40' },
+    { lat:39.95,  lng:-75.16,  primary:true,  flight:'SW·203', code:'PHL', dest:'BOG', time:'06:15' },
+    { lat:-12.05, lng:-77.04,  primary:true,  flight:'SW·318', code:'LIM', dest:'GIG', time:'18:30' },
+    { lat:-15.78, lng:-47.93,  primary:true,  flight:'SW·442', code:'BSB', dest:'MIA', time:'03:40' },
+    { lat:34.15,  lng:77.58,   primary:true,  flight:'SW·287', code:'IXL', dest:'DEL', time:'08:20' },
+    { lat:-3.12,  lng:-60.02,  primary:true,  flight:'SW·156', code:'MAO', dest:'GRU', time:'11:15' },
+    { lat:25.41,  lng:55.44,   primary:true,  flight:'SW·391', code:'DXB', dest:'NBO', time:'14:45' },
+    { lat:-1.29,  lng:36.82,   primary:true,  flight:'SW·512', code:'NBO', dest:'LAX', time:'23:10' },
+    { lat:24.69,  lng:46.72,   primary:true,  flight:'SW·624', code:'RUH', dest:'LHR', time:'00:50' },
+    { lat:26.62,  lng:37.92,   primary:true,  flight:'SW·733', code:'ULH', dest:'DXB', time:'17:20' },
+    // Europe
+    { lat:51.51,  lng:-0.13  }, { lat:48.86,  lng:2.35   }, { lat:52.37,  lng:4.90   },
+    { lat:41.90,  lng:12.50  }, { lat:40.42,  lng:-3.70  }, { lat:37.98,  lng:23.73  },
+    { lat:55.75,  lng:37.62  }, { lat:59.91,  lng:10.75  }, { lat:59.33,  lng:18.07  },
+    { lat:60.17,  lng:24.94  }, { lat:47.50,  lng:19.05  }, { lat:50.08,  lng:14.42  },
+    { lat:48.21,  lng:16.37  }, { lat:52.52,  lng:13.40  }, { lat:45.46,  lng:9.19   },
+    { lat:41.38,  lng:2.18   }, { lat:38.72,  lng:-9.14  }, { lat:47.38,  lng:8.54   },
+    { lat:50.85,  lng:4.35   }, { lat:53.33,  lng:-6.25  },
+    // Middle East
+    { lat:25.20,  lng:55.27  }, { lat:21.39,  lng:39.86  }, { lat:33.89,  lng:35.50  },
+    { lat:30.04,  lng:31.24  }, { lat:33.34,  lng:44.40  }, { lat:35.69,  lng:51.42  },
+    { lat:41.01,  lng:28.96  },
+    // Asia
+    { lat:1.36,   lng:103.99 }, { lat:22.32,  lng:114.17 }, { lat:35.68,  lng:139.69 },
+    { lat:37.57,  lng:126.98 }, { lat:31.23,  lng:121.47 }, { lat:39.91,  lng:116.39 },
+    { lat:28.70,  lng:77.10  }, { lat:19.08,  lng:72.88  }, { lat:13.76,  lng:100.51 },
+    { lat:10.82,  lng:106.63 }, { lat:21.03,  lng:105.85 }, { lat:3.14,   lng:101.69 },
+    { lat:6.92,   lng:79.84  }, { lat:27.71,  lng:85.32  }, { lat:23.72,  lng:90.41  },
+    { lat:22.54,  lng:114.06 }, { lat:23.13,  lng:113.26 }, { lat:25.03,  lng:121.56 },
+    { lat:14.60,  lng:120.98 },
+    // Oceania
+    { lat:-33.87, lng:151.21 }, { lat:-37.81, lng:144.96 }, { lat:-27.47, lng:153.02 },
+    { lat:-31.95, lng:115.86 }, { lat:-36.87, lng:174.77 },
+    // Americas
+    { lat:-23.55, lng:-46.63 }, { lat:-22.91, lng:-43.17 }, { lat:-34.60, lng:-58.38 },
+    { lat:-33.46, lng:-70.65 }, { lat:19.43,  lng:-99.13 }, { lat:4.65,   lng:-74.05 },
+    { lat:10.49,  lng:-66.88 }, { lat:40.71,  lng:-74.01 }, { lat:41.88,  lng:-87.63 },
+    { lat:33.75,  lng:-84.39 }, { lat:29.76,  lng:-95.37 }, { lat:37.77,  lng:-122.42},
+    { lat:47.61,  lng:-122.33}, { lat:25.77,  lng:-80.19 }, { lat:49.25,  lng:-123.12},
+    { lat:43.65,  lng:-79.38 }, { lat:45.50,  lng:-73.57 },
+    // Africa
+    { lat:6.46,   lng:3.39   }, { lat:-26.20, lng:28.04  }, { lat:-33.93, lng:18.42  },
+    { lat:14.71,  lng:-17.47 }, { lat:5.60,   lng:-0.17  }, { lat:33.57,  lng:-7.59  },
+    { lat:-18.91, lng:47.54  }, { lat:-4.32,  lng:15.32  }, { lat:-1.94,  lng:30.06  },
+    { lat:-6.17,  lng:35.74  }, { lat:15.55,  lng:32.53  }, { lat:9.05,   lng:7.49   },
+    { lat:3.85,   lng:11.52  }, { lat:12.37,  lng:-1.53  }, { lat:6.37,   lng:2.43   },
+    { lat:5.35,   lng:-4.00  },
   ];
 
   const ROUTES = [
-    [0, 7], [7, 4], [4, 6], [6, 9], [9, 8],
-    [8, 7], [0, 1], [1, 2], [2, 3], [3, 5], [5, 0],
-    // additional routes
-    [2, 5],   // Lima → Amazon
-    [6, 8],   // Ajman → Riyadh
-    [7, 9],   // Nairobi → Al Ula
-    [1, 4],   // Philadelphia → Ladakh
+    [0,7],[7,4],[4,6],[6,9],[9,8],[8,7],
+    [0,1],[1,2],[2,3],[3,5],[5,0],
+    [2,5],[6,8],[7,9],[1,4],
   ];
 
-  // Timing constants (ms)
-  const DRAW_DUR   = 900;    // time to draw a single route
-  const HOLD_DUR   = 7000;   // how long a completed route stays at full opacity
-  const FADE_DUR   = 2500;   // fade-out duration
-  const STAGGER    = 420;    // delay between each route starting
-  const REFIRE_INT = 9000;   // how long after fully fading before a route redraws
-
-  // Init route state objects
-  ROUTES.forEach((pair, i) => {
-    ROUTE_STATES.push({
-      pair,
-      phase: 'idle',     // idle | drawing | holding | fading
-      startTime: null,   // timestamp when current phase began
-      t: 0,              // draw progress 0→1
-      alpha: 0,          // current opacity
-      nextFireAt: i * STAGGER, // scheduled start time (relative to animStart)
-    });
-  });
+  const DRAW_DUR=900, HOLD_DUR=7000, FADE_DUR=2500, STAGGER=420, REFIRE_INT=9000;
+  const ROUTE_STATES = ROUTES.map((pair,i) => ({
+    pair, phase:'idle', startTime:null, t:0, alpha:0,
+    nextFireAt: i * STAGGER,
+  }));
 
   // ═══════════════════════════════════════════
-  // CANVAS + PROJECTION (full-bleed)
+  // CANVAS + PROJECTION
   // ═══════════════════════════════════════════
   function buildProjection() {
-    // Fill canvas width — Natural Earth projection scaled to canvas
-    const scale = W * 0.192;
-    projection  = d3.geoNaturalEarth1()
-      .scale(scale)
-      .translate([W / 2, H / 2]);
-    geoPathGen  = d3.geoPath(projection, ctx);
+    projection = d3.geoNaturalEarth1().scale(W * 0.192).translate([W/2, H/2]);
+    geoPathGen = d3.geoPath(projection, ctx);
   }
-
-  function toXY(lat, lng) {
-    const pt = projection([lng, lat]);
-    return pt || [0, 0];
-  }
+  function toXY(lat,lng) { return projection([lng,lat]) || [0,0]; }
 
   function resizeCanvas() {
     W = canvas.width  = canvas.offsetWidth;
     H = canvas.height = canvas.offsetHeight;
     staticCanvas.width  = window.innerWidth;
     staticCanvas.height = window.innerHeight;
-    grainCanvas.width  = Math.max(1, Math.floor(W / 3));
-    grainCanvas.height = Math.max(1, Math.floor(H / 3));
+    grainCanvas.width  = Math.max(1, Math.floor(W/3));
+    grainCanvas.height = Math.max(1, Math.floor(H/3));
     buildProjection();
-    initParticles();
     refreshGrain();
     positionDepartureCards();
   }
-
-  window.addEventListener('resize', resizeCanvas, { passive: true });
+  window.addEventListener('resize', resizeCanvas, { passive:true });
   resizeCanvas();
 
   // ═══════════════════════════════════════════
@@ -944,594 +638,338 @@
   // ═══════════════════════════════════════════
   function buildDepartureCards() {
     cardsDiv.innerHTML = '';
-    LOCS.forEach((loc, i) => {
+    WORLD_CITIES.forEach((city,i) => {
+      if (!city.primary) return;
       const card = document.createElement('div');
-      card.className = 'dep-card';
-      card.id = `dep-${i}`;
+      card.className = 'dep-card'; card.id = `dep-${i}`;
       card.innerHTML =
-        `<div class="dep-flight">${loc.flight}</div>` +
-        `<div class="dep-route">${loc.code} → ${loc.dest}</div>` +
-        `<div class="dep-time">DEP ${loc.time}</div>`;
+        `<div class="dep-flight">${city.flight}</div>` +
+        `<div class="dep-route">${city.code} → ${city.dest}</div>` +
+        `<div class="dep-time">DEP ${city.time}</div>`;
       cardsDiv.appendChild(card);
     });
-    positionDepartureCards();
+  }
+  function positionDepartureCards() {
+    if (!projection) return;
+    WORLD_CITIES.forEach((city,i) => {
+      if (!city.primary) return;
+      const card = document.getElementById(`dep-${i}`);
+      if (!card) return;
+      const pt = toXY(city.lat, city.lng);
+      card.style.left = `${pt[0]}px`;
+      card.style.top  = `${pt[1]}px`;
+    });
   }
   buildDepartureCards();
 
-  function positionDepartureCards() {
-    if (!projection) return;
-    LOCS.forEach((loc, i) => {
-      const card = document.getElementById(`dep-${i}`);
-      if (!card) return;
-      const [x, y] = toXY(loc.lat, loc.lng);
-      card.style.left = `${x}px`;
-      card.style.top  = `${y}px`;
-    });
-  }
-
   // ═══════════════════════════════════════════
-  // SPLIT-FLAP NAME
+  // ROUTE STATE MACHINE
   // ═══════════════════════════════════════════
-  const NAME_TEXT  = 'SHEA WEEKLEY';
-  const FLAP_POOL  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789·—';
-
-  function buildNameSpans() {
-    heroNameEl.innerHTML = '';
-    NAME_TEXT.split('').forEach(char => {
-      const span = document.createElement('span');
-      span.className = 'flap-char' + (char === ' ' ? ' is-space' : '');
-      span.textContent = char === ' ' ? '\u00A0' : '·';
-      heroNameEl.appendChild(span);
-    });
-  }
-  buildNameSpans();
-
-  function animateName() {
-    const spans = heroNameEl.querySelectorAll('.flap-char');
-    spans.forEach((span, i) => {
-      const target = NAME_TEXT[i];
-      if (target === ' ') { span.textContent = '\u00A0'; return; }
-      const delay = i * 90;
-      const iters = 9 + Math.floor(Math.random() * 7);
-      let count = 0;
-      let pendingRaf = null;   // track queued rAF so we can cancel it
-      setTimeout(() => {
-        const tick = setInterval(() => {
-          count++;
-          if (count >= iters) {
-            // Cancel any rAF still in flight before locking the final char
-            if (pendingRaf) { cancelAnimationFrame(pendingRaf); pendingRaf = null; }
-            clearInterval(tick);
-            span.style.transform  = 'scaleY(1)';
-            span.textContent      = target;
-          } else {
-            span.style.transform = 'scaleY(0.05)';
-            const next = FLAP_POOL[Math.floor(Math.random() * FLAP_POOL.length)];
-            pendingRaf = requestAnimationFrame(() => {
-              pendingRaf = requestAnimationFrame(() => {
-                pendingRaf = null;
-                span.textContent    = next;
-                span.style.transform = 'scaleY(1)';
-              });
-            });
-          }
-        }, 55);
-      }, delay);
-    });
-  }
-
-  // ═══════════════════════════════════════════
-  // PARTICLES
-  // ═══════════════════════════════════════════
-  function initParticles() {
-    particles = Array.from({ length: 45 }, () => ({
-      x: Math.random(), y: Math.random(),
-      r: Math.random() * 1.1 + 0.15,
-      speed: (Math.random() * 0.05 + 0.015) * 0.0001,
-      angle: Math.random() * Math.PI * 2,
-      drift: (Math.random() - 0.5) * 0.0006,
-      alpha: Math.random() * 0.18 + 0.04,
-      glint: 0, glintCd: Math.random() * 400 + 150, glintAge: 0,
-    }));
-  }
-
-  function stepParticles(dt) {
-    particles.forEach(p => {
-      p.x += Math.cos(p.angle) * p.speed * dt;
-      p.y += Math.sin(p.angle) * p.speed * dt;
-      p.angle += p.drift;
-      if (p.x < 0) p.x += 1; if (p.x > 1) p.x -= 1;
-      if (p.y < 0) p.y += 1; if (p.y > 1) p.y -= 1;
-      p.glintAge += dt;
-      if (p.glintAge >= p.glintCd) {
-        p.glint = 1; p.glintAge = 0;
-        p.glintCd = Math.random() * 500 + 150;
+  function tickRoutes(now, elapsed) {
+    dashOffset = (dashOffset + 0.22) % 28;
+    ROUTE_STATES.forEach(rs => {
+      if (rs.phase==='idle' && elapsed>=rs.nextFireAt) {
+        rs.phase='drawing'; rs.startTime=now; rs.t=0; rs.alpha=0;
       }
-      if (p.glint > 0) p.glint = Math.max(0, p.glint - dt * 0.004);
-    });
-  }
-
-  function drawParticles() {
-    particles.forEach(p => {
-      ctx.beginPath();
-      ctx.arc(p.x * W, p.y * H, p.r + p.glint * 1.5, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(220,175,90,${p.alpha + p.glint * 0.5})`;
-      ctx.fill();
-    });
-  }
-
-  // ═══════════════════════════════════════════
-  // GRAIN + FLICKER
-  // ═══════════════════════════════════════════
-  function refreshGrain() {
-    const gw = grainCanvas.width, gh = grainCanvas.height;
-    if (!gw || !gh) return;
-    const img = grainCtx.createImageData(gw, gh);
-    const d = img.data;
-    for (let i = 0; i < d.length; i += 4) {
-      const v = Math.random() * 255 | 0;
-      d[i] = d[i+1] = d[i+2] = v;
-      d[i+3] = (Math.random() * 20) | 0;
-    }
-    grainCtx.putImageData(img, 0, 0);
-  }
-
-  function applyGrain() {
-    ctx.save();
-    ctx.globalAlpha = 0.48;
-    ctx.globalCompositeOperation = 'source-over';
-    ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(grainCanvas, 0, 0, W, H);
-    ctx.restore();
-  }
-
-  function stepFlicker() {
-    flickCount++;
-    if (flickCount >= flickWait) {
-      flickTarget = 0.90 + Math.random() * 0.11;
-      flickWait   = Math.floor(Math.random() * 18 + 6);
-      if (Math.random() < 0.03) {
-        flickTarget = 0.48 + Math.random() * 0.28;
-        flickWait   = Math.floor(Math.random() * 4 + 2);
+      if (rs.phase==='idle') return;
+      const age = now - rs.startTime;
+      if (rs.phase==='drawing') {
+        rs.t     = Math.min(1, age/DRAW_DUR);
+        rs.alpha = Math.min(1, age/(DRAW_DUR*0.4));
+        if (rs.t>=1) {
+          rs.phase='holding'; rs.startTime=now;
+          const card=document.getElementById(`dep-${rs.pair[0]}`);
+          if (card) card.classList.add('show');
+        }
       }
-      flickCount = 0;
-    }
-    flickBright += (flickTarget - flickBright) * 0.18;
-  }
-
-  function applyFlicker() {
-    const dark = 1 - flickBright;
-    if (dark > 0.01) {
-      ctx.fillStyle = `rgba(8,5,2,${dark * 0.8})`;
-      ctx.fillRect(0, 0, W, H);
-    }
-  }
-
-  // ═══════════════════════════════════════════
-  // VHS STATIC
-  // ═══════════════════════════════════════════
-  function drawVHSStatic(intensity) {
-    const sw = staticCanvas.width, sh = staticCanvas.height;
-    staticCtx.clearRect(0, 0, sw, sh);
-    if (intensity < 0.015) return;
-    for (let i = 0; i < Math.floor(intensity * 18) + 3; i++) {
-      staticCtx.fillStyle = `hsla(${Math.random()*360},80%,65%,${(Math.random()*0.35+0.05)*intensity})`;
-      staticCtx.fillRect(0, Math.random() * sh, sw, Math.random() * 35 + 4);
-    }
-    for (let i = 0; i < 5; i++) {
-      staticCtx.fillStyle = `rgba(255,255,255,${Math.random()*0.1*intensity})`;
-      staticCtx.fillRect(0, Math.random() * sh, sw, 1);
-    }
+      if (rs.phase==='holding') {
+        rs.alpha=1;
+        if (age>=HOLD_DUR) {
+          rs.phase='fading'; rs.startTime=now;
+          const card=document.getElementById(`dep-${rs.pair[0]}`);
+          if (card) card.classList.remove('show');
+        }
+      }
+      if (rs.phase==='fading') {
+        rs.alpha = Math.max(0, 1-age/FADE_DUR);
+        if (rs.alpha<=0) {
+          rs.phase='idle'; rs.alpha=0; rs.t=0;
+          rs.nextFireAt = elapsed + REFIRE_INT + ROUTES.indexOf(rs.pair)*180;
+        }
+      }
+    });
   }
 
   // ═══════════════════════════════════════════
   // BEZIER HELPERS
   // ═══════════════════════════════════════════
-  function arcCtrl(x1, y1, x2, y2) {
-    const mx = (x1+x2)/2, my = (y1+y2)/2;
-    const dist = Math.hypot(x2-x1, y2-y1);
-    const ang  = Math.atan2(y2-y1, x2-x1);
-    return [ mx + Math.sin(ang)*dist*0.22, my - Math.abs(Math.cos(ang))*dist*0.22 - dist*0.06 ];
+  function arcCtrl(x1,y1,x2,y2) {
+    const mx=(x1+x2)/2, my=(y1+y2)/2, dist=Math.hypot(x2-x1,y2-y1), ang=Math.atan2(y2-y1,x2-x1);
+    return [mx+Math.sin(ang)*dist*0.22, my-Math.abs(Math.cos(ang))*dist*0.22-dist*0.06];
   }
-
   function bezPt(x1,y1,cx,cy,x2,y2,t) {
-    const u = 1-t;
-    return [ u*u*x1+2*u*t*cx+t*t*x2, u*u*y1+2*u*t*cy+t*t*y2 ];
+    const u=1-t; return [u*u*x1+2*u*t*cx+t*t*x2, u*u*y1+2*u*t*cy+t*t*y2];
   }
-
-  function easeIO(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
-
-  // ═══════════════════════════════════════════
-  // ROUTE STATE MACHINE — runs every frame
-  // ═══════════════════════════════════════════
-  function tickRoutes(now, elapsed) {
-    dashOffset = (dashOffset + 0.22) % 28;
-
-    ROUTE_STATES.forEach((rs, i) => {
-
-      // Schedule idle → drawing transition
-      if (rs.phase === 'idle' && elapsed >= rs.nextFireAt) {
-        rs.phase     = 'drawing';
-        rs.startTime = now;
-        rs.t         = 0;
-        rs.alpha     = 0;
-      }
-
-      if (rs.phase === 'idle') return;
-
-      const age = now - rs.startTime;
-
-      if (rs.phase === 'drawing') {
-        rs.t     = Math.min(1, age / DRAW_DUR);
-        rs.alpha = Math.min(1, age / (DRAW_DUR * 0.4)); // fade in quickly
-        if (rs.t >= 1) {
-          rs.phase     = 'holding';
-          rs.startTime = now;
-          // Show departure card for origin loc
-          const card = document.getElementById(`dep-${rs.pair[0]}`);
-          if (card) card.classList.add('show');
-        }
-      }
-
-      if (rs.phase === 'holding') {
-        rs.alpha = 1;
-        if (age >= HOLD_DUR) {
-          rs.phase     = 'fading';
-          rs.startTime = now;
-          // Hide departure card
-          const card = document.getElementById(`dep-${rs.pair[0]}`);
-          if (card) card.classList.remove('show');
-        }
-      }
-
-      if (rs.phase === 'fading') {
-        rs.alpha = Math.max(0, 1 - age / FADE_DUR);
-        if (rs.alpha <= 0) {
-          rs.phase      = 'idle';
-          rs.alpha      = 0;
-          rs.t          = 0;
-          // Schedule next redraw — stagger slightly from others
-          rs.nextFireAt = elapsed + REFIRE_INT + i * 180;
-        }
-      }
-    });
-  }
+  function easeIO(t) { return t<0.5 ? 2*t*t : -1+(4-2*t)*t; }
 
   // ═══════════════════════════════════════════
   // DRAW: ROUTE MAP
   // ═══════════════════════════════════════════
   function drawRouteMap(now, elapsed) {
-
-    // Continent fill — subtle, route map not terrain
     if (geoLand) {
-      ctx.save();
-      ctx.globalAlpha = mapAlpha;
-      ctx.beginPath();
-      geoPathGen(geoLand);
-      ctx.fillStyle = 'rgba(26, 17, 7, 0.9)';
-      ctx.fill();
-      ctx.beginPath();
-      geoPathGen(geoLand);
-      ctx.strokeStyle = 'rgba(200, 136, 42, 0.08)';
-      ctx.lineWidth = 0.5;
-      ctx.setLineDash([]);
-      ctx.stroke();
+      ctx.save(); ctx.globalAlpha=mapAlpha;
+      ctx.beginPath(); geoPathGen(geoLand);
+      ctx.fillStyle='rgba(26,17,7,0.9)'; ctx.fill();
+      ctx.beginPath(); geoPathGen(geoLand);
+      ctx.strokeStyle='rgba(200,136,42,0.08)'; ctx.lineWidth=0.5; ctx.setLineDash([]); ctx.stroke();
       ctx.restore();
     }
-
-    // Routes
     ROUTE_STATES.forEach(rs => {
-      if (rs.phase === 'idle' || rs.alpha < 0.01) return;
-
-      const [ia, ib] = rs.pair;
-      const [x1, y1] = toXY(LOCS[ia].lat, LOCS[ia].lng);
-      const [x2, y2] = toXY(LOCS[ib].lat, LOCS[ib].lng);
-      const [cx, cy] = arcCtrl(x1, y1, x2, y2);
-
-      const STEPS     = 80;
-      const drawSteps = Math.max(1, Math.floor(STEPS * easeIO(rs.t)));
-
-      ctx.save();
-      ctx.globalAlpha = rs.alpha * mapAlpha;
-      ctx.setLineDash([5, 7]);
-      ctx.lineDashOffset = -dashOffset;
-      ctx.strokeStyle = rs.phase === 'drawing'
-        ? `rgba(220, 155, 50, 0.7)`
-        : `rgba(200, 136, 42, 0.45)`;
-      ctx.lineWidth = rs.phase === 'drawing' ? 1.2 : 0.85;
-      ctx.beginPath();
-      ctx.moveTo(x1, y1);
-      for (let s = 1; s <= drawSteps; s++) {
-        const [bx, by] = bezPt(x1,y1,cx,cy,x2,y2, s/STEPS);
-        ctx.lineTo(bx, by);
-      }
+      if (rs.phase==='idle'||rs.alpha<0.01) return;
+      const [ia,ib]=rs.pair;
+      const [x1,y1]=toXY(WORLD_CITIES[ia].lat,WORLD_CITIES[ia].lng);
+      const [x2,y2]=toXY(WORLD_CITIES[ib].lat,WORLD_CITIES[ib].lng);
+      const [cx,cy]=arcCtrl(x1,y1,x2,y2);
+      const STEPS=80, drawSteps=Math.max(1,Math.floor(STEPS*easeIO(rs.t)));
+      ctx.save(); ctx.globalAlpha=rs.alpha*mapAlpha;
+      ctx.setLineDash([5,7]); ctx.lineDashOffset=-dashOffset;
+      ctx.strokeStyle=rs.phase==='drawing'?'rgba(220,155,50,0.7)':'rgba(200,136,42,0.42)';
+      ctx.lineWidth=rs.phase==='drawing'?1.2:0.85;
+      ctx.beginPath(); ctx.moveTo(x1,y1);
+      for(let s=1;s<=drawSteps;s++){const[bx,by]=bezPt(x1,y1,cx,cy,x2,y2,s/STEPS);ctx.lineTo(bx,by);}
       ctx.stroke();
-
-      // Leading particle while drawing
-      if (rs.phase === 'drawing' && rs.t > 0.02 && rs.t < 0.96) {
-        const [px, py] = bezPt(x1,y1,cx,cy,x2,y2, drawSteps/STEPS);
-        ctx.beginPath();
-        ctx.arc(px, py, 2.4, 0, Math.PI*2);
-        ctx.setLineDash([]);
-        ctx.fillStyle = 'rgba(248, 195, 80, 0.96)';
-        ctx.fill();
+      if(rs.phase==='drawing'&&rs.t>0.02&&rs.t<0.96){
+        const[px,py]=bezPt(x1,y1,cx,cy,x2,y2,drawSteps/STEPS);
+        ctx.beginPath();ctx.arc(px,py,2.4,0,Math.PI*2);ctx.setLineDash([]);
+        ctx.fillStyle='rgba(248,195,80,0.96)';ctx.fill();
       }
       ctx.restore();
     });
-
-    // Location dots — always on once any route has been drawn
-    const anyDrawn = ROUTE_STATES.some(rs => rs.phase !== 'idle');
-    if (anyDrawn) {
-      LOCS.forEach((loc, i) => {
-        const [x, y] = toXY(loc.lat, loc.lng);
-        ctx.save();
-        ctx.globalAlpha = mapAlpha;
-
-        // Pulse ring
-        const pulseT = ((Date.now() * 0.00032 + i * 0.22) % 1);
-        ctx.beginPath();
-        ctx.arc(x, y, 4 + pulseT * 11, 0, Math.PI*2);
-        ctx.strokeStyle = `rgba(200,136,42,${(1-pulseT)*0.18})`;
-        ctx.lineWidth = 0.8;
-        ctx.setLineDash([]);
-        ctx.stroke();
-
-        // Ring
-        ctx.beginPath();
-        ctx.arc(x, y, 3.8, 0, Math.PI*2);
-        ctx.strokeStyle = 'rgba(200,136,42,0.32)';
-        ctx.lineWidth = 0.7;
-        ctx.stroke();
-
-        // Core
-        ctx.beginPath();
-        ctx.arc(x, y, 2, 0, Math.PI*2);
-        ctx.fillStyle = 'rgba(225,158,55,0.88)';
-        ctx.fill();
-
+    if (mapAlpha>0.1) {
+      WORLD_CITIES.forEach((city,i) => {
+        const[x,y]=toXY(city.lat,city.lng);
+        ctx.save(); ctx.globalAlpha=mapAlpha*(city.primary?1:0.88);
+        if (city.primary) {
+          const pulseT=((Date.now()*0.00032+i*0.22)%1);
+          ctx.beginPath();ctx.arc(x,y,4+pulseT*11,0,Math.PI*2);
+          ctx.strokeStyle=`rgba(200,136,42,${(1-pulseT)*0.18})`;ctx.lineWidth=0.8;ctx.setLineDash([]);ctx.stroke();
+          ctx.beginPath();ctx.arc(x,y,3.8,0,Math.PI*2);
+          ctx.strokeStyle='rgba(200,136,42,0.32)';ctx.lineWidth=0.7;ctx.stroke();
+        }
+        ctx.beginPath();ctx.arc(x,y,city.primary?2.5:1.8,0,Math.PI*2);
+        ctx.fillStyle=city.primary?'rgba(225,158,55,0.88)':'rgba(210,148,50,0.82)';ctx.fill();
         ctx.restore();
       });
     }
   }
 
   // ═══════════════════════════════════════════
-  // DRAW: CRT ATMOSPHERE
+  // GRAIN + FLICKER
   // ═══════════════════════════════════════════
-  function drawAmberGlow() {
-    const g = ctx.createRadialGradient(W*.5, H*.46, 0, W*.5, H*.46, Math.max(W,H)*.75);
-    g.addColorStop(0,    'rgba(200,140,40,0.06)');
-    g.addColorStop(0.42, 'rgba(180,110,28,0.028)');
-    g.addColorStop(1,    'rgba(0,0,0,0)');
-    ctx.fillStyle = g;
-    ctx.fillRect(0, 0, W, H);
+  function refreshGrain() {
+    const gw=grainCanvas.width, gh=grainCanvas.height;
+    if(!gw||!gh) return;
+    const img=grainCtx.createImageData(gw,gh); const d=img.data;
+    for(let i=0;i<d.length;i+=4){const v=Math.random()*255|0;d[i]=d[i+1]=d[i+2]=v;d[i+3]=(Math.random()*20)|0;}
+    grainCtx.putImageData(img,0,0);
+  }
+  function applyGrain() {
+    ctx.save(); ctx.globalAlpha=0.48; ctx.globalCompositeOperation='source-over';
+    ctx.imageSmoothingEnabled=false; ctx.drawImage(grainCanvas,0,0,W,H); ctx.restore();
+  }
+  function stepFlicker() {
+    flickCount++;
+    if(flickCount>=flickWait){
+      flickTarget=0.90+Math.random()*0.11; flickWait=Math.floor(Math.random()*18+6);
+      if(Math.random()<0.03){flickTarget=0.48+Math.random()*0.28;flickWait=Math.floor(Math.random()*4+2);}
+      flickCount=0;
+    }
+    flickBright+=(flickTarget-flickBright)*0.18;
+  }
+  function applyFlicker() {
+    const dark=1-flickBright;
+    if(dark>0.01){ctx.fillStyle=`rgba(8,5,2,${dark*0.8})`;ctx.fillRect(0,0,W,H);}
   }
 
+  // ═══════════════════════════════════════════
+  // VHS STATIC
+  // ═══════════════════════════════════════════
+  function drawVHSStatic(intensity) {
+    const sw=staticCanvas.width, sh=staticCanvas.height;
+    staticCtx.clearRect(0,0,sw,sh);
+    if(intensity<0.015) return;
+    for(let i=0;i<Math.floor(intensity*18)+3;i++){
+      staticCtx.fillStyle=`hsla(${Math.random()*360},80%,65%,${(Math.random()*0.35+0.05)*intensity})`;
+      staticCtx.fillRect(0,Math.random()*sh,sw,Math.random()*35+4);
+    }
+    for(let i=0;i<5;i++){
+      staticCtx.fillStyle=`rgba(255,255,255,${Math.random()*0.1*intensity})`;
+      staticCtx.fillRect(0,Math.random()*sh,sw,1);
+    }
+  }
+
+  // ═══════════════════════════════════════════
+  // CRT ATMOSPHERE
+  // ═══════════════════════════════════════════
+  function drawAmberGlow() {
+    const g=ctx.createRadialGradient(W*.5,H*.46,0,W*.5,H*.46,Math.max(W,H)*.75);
+    g.addColorStop(0,'rgba(200,140,40,0.06)'); g.addColorStop(0.42,'rgba(180,110,28,0.028)'); g.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  }
   function drawVignette() {
-    const g = ctx.createRadialGradient(W/2, H/2, H*.12, W/2, H/2, H*.95);
-    g.addColorStop(0, 'transparent');
-    g.addColorStop(1, 'rgba(8,5,2,0.9)');
-    ctx.fillStyle = g;
-    ctx.fillRect(0, 0, W, H);
+    const g=ctx.createRadialGradient(W/2,H/2,H*.12,W/2,H/2,H*.95);
+    g.addColorStop(0,'transparent'); g.addColorStop(1,'rgba(8,5,2,0.9)');
+    ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
   }
 
   // ═══════════════════════════════════════════
   // MAIN FRAME
   // ═══════════════════════════════════════════
   function frame(ts) {
-    const dt = lastTs ? Math.min(ts - lastTs, 50) : 16;
-    lastTs = ts;
-
-    ctx.clearRect(0, 0, W, H);
+    const dt=lastTs?Math.min(ts-lastTs,50):16;
+    lastTs=ts;
+    ctx.clearRect(0,0,W,H);
     stepFlicker();
-    stepParticles(dt);
-
-    if (dataReady) {
-      if (!animStart) animStart = ts;
-      const elapsed = ts - animStart;
-
-      // Map fades in
-      mapAlpha = Math.min(1, mapAlpha + dt * 0.0016);
-
-      // Update route state machine
-      tickRoutes(ts, elapsed);
-
-      // Draw map + routes
-      drawRouteMap(ts, elapsed);
-
-      // Reposition departure cards (handles resize)
+    if(dataReady){
+      if(!animStart) animStart=ts;
+      const elapsed=ts-animStart;
+      mapAlpha=Math.min(1,mapAlpha+dt*0.0016);
+      tickRoutes(ts,elapsed);
+      drawRouteMap(ts,elapsed);
       positionDepartureCards();
-
-      // Split-flap name at 1.8s
-      if (elapsed > 1800 && !nameAnimated) {
-        nameAnimated = true;
-        animateName();
-      }
-
-      // Role + scroll after name resolves (~3.9s)
-      if (elapsed > 3900 && !uiShown) {
-        uiShown = true;
-        heroRoleEl.style.transition   = 'opacity 0.9s ease, transform 0.9s ease';
-        heroRoleEl.style.opacity      = '1';
-        heroRoleEl.style.transform    = 'translateY(0)';
-        setTimeout(() => {
-          heroScrollEl.style.transition = 'opacity 0.8s ease';
-          heroScrollEl.style.opacity    = '1';
-        }, 700);
-      }
     }
-
     drawAmberGlow();
-    drawParticles();
-    grainTick++;
-    if (grainTick % 4 === 0) refreshGrain();
+    grainTick++; if(grainTick%4===0) refreshGrain();
     applyGrain();
     drawVignette();
     applyFlicker();
-
-    // VHS static
-    staticIntensity += (staticTarget - staticIntensity) * 0.1;
-    staticCanvas.style.opacity = staticIntensity > 0.012 ? '1' : '0';
-    if (staticIntensity > 0.012) drawVHSStatic(staticIntensity);
-
+    staticIntensity+=(staticTarget-staticIntensity)*0.1;
+    staticCanvas.style.opacity=staticIntensity>0.012?'1':'0';
+    if(staticIntensity>0.012) drawVHSStatic(staticIntensity);
     requestAnimationFrame(frame);
   }
 
   requestAnimationFrame(frame);
 
   // ═══════════════════════════════════════════
+  // HERO REVEAL — map loads, name drifts in, Ken Burns
+  // ═══════════════════════════════════════════
+  setTimeout(() => {
+    heroNameEl.style.transition = 'opacity 1.4s ease';
+    heroNameEl.style.opacity    = '1';
+
+    setTimeout(() => {
+      heroNameEl.style.transition = 'transform 9s ease-out';
+      heroNameEl.style.transform  = 'scale(1.04)';
+    }, 1400);
+
+    setTimeout(() => {
+      heroRoleEl.style.transition  = 'opacity 0.9s ease, transform 0.9s ease';
+      heroRoleEl.style.opacity     = '1';
+      heroRoleEl.style.transform   = 'translateY(0)';
+    }, 2000);
+
+    setTimeout(() => {
+      heroScrollEl.style.transition = 'opacity 0.8s ease';
+      heroScrollEl.style.opacity    = '1';
+    }, 2800);
+  }, 2000);
+
+  // ═══════════════════════════════════════════
   // SCROLL + INTERACTION
   // ═══════════════════════════════════════════
-  // VHS static decay — drains even when scroll events stop
-  let lastScrollTime = 0;
-  let scrollVel = 0;
+  let lastScrollTime=0, scrollVel=0;
 
   window.addEventListener('scroll', () => {
     const heroH   = document.getElementById('hero').offsetHeight;
-    const scrollY = window.scrollY;
-    const now     = performance.now();
-
+    const scrollY = window.scrollY, now = performance.now();
     mainNav.classList.toggle('visible', scrollY > heroH + 80);
-
     const workTop = workSection.getBoundingClientRect().top;
-
-    // Only fire static within 180px of the work section top edge crossing the viewport.
-    // Once inside the work section (workTop < -180) or well above it (workTop > 180),
-    // static stays zero regardless of scroll speed.
-    const proximity = Math.max(0, 1 - Math.abs(workTop) / 180);
-
+    const proximity = Math.max(0, 1-Math.abs(workTop)/180);
     if (proximity > 0.02) {
-      const timeDelta = Math.max(1, now - lastScrollTime);
-      const posDelta  = Math.abs(scrollY - lastScrollY);
-      scrollVel       = Math.min(0.9, (posDelta / timeDelta) * 14);
-      staticTarget    = Math.max(proximity * 0.88, scrollVel * 0.55);
-    } else {
-      // Completely outside the trigger zone — kill it immediately
-      scrollVel    = 0;
-      staticTarget = 0;
-    }
+      const td=Math.max(1,now-lastScrollTime), pd=Math.abs(scrollY-lastScrollY);
+      scrollVel=Math.min(0.9,(pd/td)*14);
+      staticTarget=Math.max(proximity*0.88, scrollVel*0.55);
+    } else { scrollVel=0; staticTarget=0; }
+    lastScrollY=scrollY; lastScrollTime=now;
+  }, { passive:true });
 
-    lastScrollY    = scrollY;
-    lastScrollTime = now;
-  }, { passive: true });
-
-  // Drain staticTarget to zero when scroll events stop firing
   function drainStatic() {
-    const timeSinceScroll = performance.now() - lastScrollTime;
-    if (timeSinceScroll > 80) {
-      staticTarget = Math.max(0, staticTarget - 0.04);
-      scrollVel    = 0;
-    }
+    if(performance.now()-lastScrollTime>80){staticTarget=Math.max(0,staticTarget-0.04);scrollVel=0;}
     requestAnimationFrame(drainStatic);
   }
   requestAnimationFrame(drainStatic);
 
   // Boarding pass reveal
   new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) boardingPass.classList.add('revealed'); });
-  }, { threshold: 0.2 }).observe(boardingPass);
+    entries.forEach(e => { if(e.isIntersecting) boardingPass.classList.add('revealed'); });
+  }, { threshold:0.2 }).observe(boardingPass);
 
-  // ═══════════════════════════════════════════
-  // FLAP TITLES — fires on each project title when it scrolls into view
-  // ═══════════════════════════════════════════
+  // Project scroll reveal + title flap
   const TITLE_POOL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789·—/: ';
-
   function flapTitle(el) {
-    // Collect text nodes only — skip <em> child structure by working on full textContent
-    // but preserve the inner HTML structure (em tags for subtitles)
-    // Strategy: wrap each character of the plain text in spans, animate, then restore
-    const originalHTML = el.innerHTML;
-    const fullText = el.textContent;
-
-    // Build span-wrapped version preserving em structure
-    // We walk child nodes and wrap each character in spans
+    const orig = el.innerHTML;
+    const temp = document.createElement('div'); temp.innerHTML = orig;
+    el.innerHTML = '';
     function wrapChars(node) {
-      if (node.nodeType === Node.TEXT_NODE) {
-        const frag = document.createDocumentFragment();
-        node.textContent.split('').forEach(char => {
-          const span = document.createElement('span');
-          span.className = 'flap-title-char';
-          span.textContent = char === ' ' ? '\u00A0' : '·';
-          span.dataset.target = char;
-          frag.appendChild(span);
-        });
-        return frag;
-      } else if (node.nodeName === 'EM') {
-        const em = document.createElement('em');
-        Array.from(node.childNodes).forEach(child => {
-          em.appendChild(wrapChars(child));
-        });
-        return em;
+      if (node.nodeType===Node.TEXT_NODE) {
+        const frag=document.createDocumentFragment();
+        node.textContent.split('').forEach(ch => {
+          const sp=document.createElement('span');
+          sp.className='flap-title-char'; sp.textContent=ch===' '?'\u00A0':'·'; sp.dataset.target=ch;
+          frag.appendChild(sp);
+        }); return frag;
+      } else if (node.nodeName==='EM') {
+        const em=document.createElement('em');
+        Array.from(node.childNodes).forEach(c=>em.appendChild(wrapChars(c))); return em;
       }
       return node.cloneNode(true);
     }
-
-    el.innerHTML = '';
-    const originalNodes = [];
-    // Parse original HTML to get nodes
-    const temp = document.createElement('div');
-    temp.innerHTML = originalHTML;
-    Array.from(temp.childNodes).forEach(child => {
-      el.appendChild(wrapChars(child));
-    });
-
-    // Animate all spans
-    const spans = el.querySelectorAll('.flap-title-char');
-    spans.forEach((span, i) => {
-      const target = span.dataset.target;
-      if (target === ' ') { span.textContent = '\u00A0'; return; }
-      const delay = i * 28;
-      const iters = 5 + Math.floor(Math.random() * 5);
-      let count = 0;
-      let pendingRaf = null;
+    Array.from(temp.childNodes).forEach(c=>el.appendChild(wrapChars(c)));
+    el.querySelectorAll('.flap-title-char').forEach((span,i) => {
+      const target=span.dataset.target;
+      if(target===' '){span.textContent='\u00A0';return;}
+      const delay=i*28, iters=5+Math.floor(Math.random()*5);
+      let count=0, pRaf=null;
       setTimeout(() => {
-        const tick = setInterval(() => {
+        const tick=setInterval(() => {
           count++;
-          if (count >= iters) {
-            if (pendingRaf) { cancelAnimationFrame(pendingRaf); pendingRaf = null; }
-            clearInterval(tick);
-            span.style.transform = 'scaleY(1)';
-            span.textContent = target;
+          if(count>=iters){
+            if(pRaf){cancelAnimationFrame(pRaf);pRaf=null;}
+            clearInterval(tick); span.style.transform='scaleY(1)'; span.textContent=target;
           } else {
-            span.style.transform = 'scaleY(0.05)';
-            const next = TITLE_POOL[Math.floor(Math.random() * TITLE_POOL.length)];
-            pendingRaf = requestAnimationFrame(() => {
-              pendingRaf = requestAnimationFrame(() => {
-                pendingRaf = null;
-                span.textContent = next === ' ' ? '\u00A0' : next;
-                span.style.transform = 'scaleY(1)';
-              });
-            });
+            span.style.transform='scaleY(0.05)';
+            const next=TITLE_POOL[Math.floor(Math.random()*TITLE_POOL.length)];
+            pRaf=requestAnimationFrame(()=>pRaf=requestAnimationFrame(()=>{
+              pRaf=null; span.textContent=next===' '?'\u00A0':next; span.style.transform='scaleY(1)';
+            }));
           }
-        }, 42);
-      }, delay);
+        },42);
+      },delay);
     });
   }
 
-  // Project scroll reveal — also fires flap on titles
-  const revealTargets = document.querySelectorAll('.project-t1, .project-t2, .project-t3');
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const idx = Array.from(revealTargets).indexOf(entry.target);
-        const delay = (idx % 3) * 110;
-        setTimeout(() => {
+  const revealTargets=document.querySelectorAll('.project-t1,.project-t2,.project-t3');
+  const revealObserver=new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const idx=Array.from(revealTargets).indexOf(entry.target);
+        setTimeout(()=>{
           entry.target.classList.add('revealed');
-          const titleEl = entry.target.querySelector('.project-title');
-          if (titleEl) flapTitle(titleEl);
-        }, delay);
+          const titleEl=entry.target.querySelector('.project-title');
+          if(titleEl) flapTitle(titleEl);
+        },(idx%3)*110);
         revealObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-  revealTargets.forEach(el => revealObserver.observe(el));
+  },{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
+  revealTargets.forEach(el=>revealObserver.observe(el));
 
   // CRT parallax glare
-  document.addEventListener('mousemove', (e) => {
-    const x = e.clientX / window.innerWidth  - 0.5;
-    const y = e.clientY / window.innerHeight - 0.5;
-    crtGlare.style.transform = `translate(${x * 10}px, ${y * 6}px)`;
+  document.addEventListener('mousemove', e => {
+    const x=e.clientX/window.innerWidth-0.5, y=e.clientY/window.innerHeight-0.5;
+    crtGlare.style.transform=`translate(${x*10}px,${y*6}px)`;
   });
-
   </script>
 </body>
 </html>
