@@ -241,6 +241,8 @@
       overflow: hidden; position: relative;
     }
     .project-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+    /* For portrait/non-16:9 videos — black bars rather than crop */
+    .project-video.contain iframe { object-fit: contain; background: #000; }
     .video-placeholder-text {
       font-family: 'IBM Plex Mono', monospace; font-size: 0.56rem;
       letter-spacing: 0.16em; color: var(--work-dim); opacity: 0.48;
@@ -302,6 +304,16 @@
     .project-t2 .project-info { margin-bottom: 0.75rem; }
     .project-t2 .project-description { font-size: 0.84rem; color: #4A3F35; line-height: 1.78; }
     /* Tier 3 folded into Tier 2 grid */
+    .project-video-link { flex-direction: column; gap: 0.75rem; background: rgba(26,20,16,0.04); }
+    .platform-links { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+    .platform-btn {
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--work-gold); text-decoration: none;
+      border: 1px solid var(--work-border); padding: 0.6em 1.2em;
+      transition: background 0.2s, color 0.2s;
+    }
+    .platform-btn:hover { background: var(--work-gold); color: var(--work-bg); }
     /* Flap title chars */
     .flap-title-char { display: inline-block; transition: transform 0.04s linear; will-change: transform; }
     /* Contact */
@@ -495,24 +507,22 @@
         </div>
         <p class="project-description">A snowboarder from Peru, a bobsledder from Brazil, and women's hockey in the Indian Himalayas. The stories and struggles of global athletes from unexpected regions attempting to make their Winter Olympic dreams come true.</p>
       </article>
-    <article class="project-t1">
-  <div class="project-header">
-    <div class="project-index">SW·003</div>
-    <div class="project-meta">
-      <h2 class="project-title">Fletcher Street</h2>
-      <div class="project-info">
-        <span class="badge">HotDocs</span>
-        <span class="badge">DC/DOX</span>
-        <span class="badge">Mountain Film</span>
-        <span class="project-role">Co-Director of Photography &middot; Co-Editor</span>
-      </div>
-    </div>
-  </div>
-  <div class="project-video">
-    <iframe src="https://player.vimeo.com/video/1187458310?h=1c0fbaa1a6&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-  </div>
-  <p class="project-description">In the heart of North Philadelphia, where violence and instability are a daily reality, the Fletcher Street Urban Riding Club offers something rare: a safe haven. A moving portrait of a community where love, mentorship, and horses come together to change lives.</p>
-</article>
+      <article class="project-t1">
+        <div class="project-header">
+          <div class="project-index">SW·003</div>
+          <div class="project-meta">
+            <h2 class="project-title">Fletcher Street</h2>
+            <div class="project-info">
+              <span class="badge">HotDocs</span><span class="badge">DC/DOX</span><span class="badge">Mountain Film</span>
+              <span class="project-role">Co-Director of Photography &middot; Co-Editor</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-video contain">
+          <iframe src="https://player.vimeo.com/video/1187458310?h=1c0fbaa1a6&title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p class="project-description">In the heart of North Philadelphia, where violence and instability are a daily reality, the Fletcher Street Urban Riding Club offers something rare: a safe haven. A moving portrait of a community where love, mentorship, and horses come together to change lives.</p>
+      </article>
     </div>
 
     <div class="coord-divider"><span class="coord-label">3°S 60°W → 25°N 55°E</span></div>
@@ -528,12 +538,15 @@
         </article>
         <article class="project-t2">
           <div class="project-video">
-  <a href="https://www.primevideo.com/detail/0QR8MEUJMMCLRMKJAWG9230E0G" 
-     target="_blank" rel="noopener" style="display:block;width:100%;height:100%;">
-    <img src="ajman.jpg" alt="Ajman Stud" 
-         style="width:100%;height:100%;object-fit:cover;display:block;">
-  </a>
-</div>
+            <a href="https://www.primevideo.com/detail/0QR8MEUJMMCLRMKJAWG9230E0G" target="_blank" rel="noopener" style="display:block;width:100%;height:100%;">
+              <img src="ajman.jpg" alt="Ajman Stud" style="width:100%;height:100%;object-fit:cover;display:block;">
+            </a>
+          </div>
+          <h2 class="project-title">Ajman Stud</h2>
+          <div class="project-info">
+            <span class="badge">Amazon Prime</span><span class="badge">Apple TV</span><span class="badge">Tubi</span>
+            <span class="project-role">Editor</span>
+          </div>
           <p class="project-description">A behind-the-scenes look at the beauty, training, and competition inside the crown prince of Ajman's majestic, 250-strong collection of Arabian horses.</p>
         </article>
         <article class="project-t2">
