@@ -1013,27 +1013,41 @@
       return node.cloneNode(true);
     }
     Array.from(temp.childNodes).forEach(c=>el.appendChild(wrapChars(c)));
-    el.querySelectorAll('.flap-title-char').forEach((span,i) => {
-      const target=span.dataset.target;
-      if(target===' '){span.textContent='\u00A0';return;}
-      const delay=i*28, iters=5+Math.floor(Math.random()*5);
-      let count=0, pRaf=null;
+
+    const spans = el.querySelectorAll('.flap-title-char');
+    const totalDuration = spans.length * 28 + 12 * 42 + 200; // max possible anim time
+
+    spans.forEach((span, i) => {
+      const target = span.dataset.target;
+      if (target===' ') { span.textContent='\u00A0'; return; }
+      const delay = i * 28;
+      const iters = 5 + Math.floor(Math.random() * 5);
+      let count = 0;
       setTimeout(() => {
-        const tick=setInterval(() => {
+        const tick = setInterval(() => {
           count++;
-          if(count>=iters){
-            if(pRaf){cancelAnimationFrame(pRaf);pRaf=null;}
-            clearInterval(tick); span.style.transform='scaleY(1)'; span.textContent=target;
+          if (count >= iters) {
+            clearInterval(tick);
+            span.style.transform = 'scaleY(1)';
+            span.textContent = target;
           } else {
-            span.style.transform='scaleY(0.05)';
-            const next=TITLE_POOL[Math.floor(Math.random()*TITLE_POOL.length)];
-            pRaf=requestAnimationFrame(()=>pRaf=requestAnimationFrame(()=>{
-              pRaf=null; span.textContent=next===' '?'\u00A0':next; span.style.transform='scaleY(1)';
-            }));
+            // Direct assignment — no nested rAF, no race condition
+            span.textContent = TITLE_POOL[Math.floor(Math.random() * TITLE_POOL.length)];
           }
-        },42);
-      },delay);
+        }, 42);
+      }, delay);
     });
+
+    // Hard fallback — if anything goes wrong, restore correct text after max duration
+    setTimeout(() => {
+      spans.forEach(span => {
+        const target = span.dataset.target;
+        if (target !== undefined) {
+          span.textContent = target === ' ' ? '\u00A0' : target;
+          span.style.transform = 'scaleY(1)';
+        }
+      });
+    }, totalDuration);
   }
 
   const revealTargets=document.querySelectorAll('.project-t1,.project-t2,.project-t3');
